@@ -29,6 +29,16 @@ appSchema.virtual('slugg').get(function appSchemaVirtualSlugg() {
   return this.name.toLowerCase().replace(/[^a-zaæå0-9]/g, '-');
 });
 
+const ownerSchema = new Schema({
+userId: Number,
+  userName: String,
+  email: String,
+  fullName: String,
+  accessToken: String,
+  refreshToken: String,
+  avatarUrl: String,
+});
+
 const userSchema = new Schema({
   provider: {
     type: String,
@@ -45,15 +55,7 @@ const userSchema = new Schema({
     email: { type: String, required: 'Epost kan ikke være tomt' },
     phone: { type: String, required: 'Telefon kan ikke være tomt' },
   },
-  owner: {
-    userId: Number,
-    userName: String,
-    email: String,
-    fullName: String,
-    accessToken: String,
-    refreshToken: String,
-    avatarUrl: String,
-  },
+  owner: [ownerSchema],
   keys: Object,
   apps: [appSchema],
   terms: {
