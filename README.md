@@ -29,7 +29,6 @@ Put these environment variables in you `.env` file.
 
 ### Commands
 
-|-----------------|---------------------------------|
 | Command         | Description                     |
 |-----------------|---------------------------------|
 | `npm test`      | Run test suite                  |
@@ -37,6 +36,5 @@ Put these environment variables in you `.env` file.
 | `npm run watch` | Run test suite when files change|
 | `npm run lint`  | Run source code linter          |
 | `npm run grunt` | Build static assets             |
-|-----------------|---------------------------------|
 
 ## [MIT Licensed](https://github.com/Turbasen/Developer/blob/master/LICENSE)
