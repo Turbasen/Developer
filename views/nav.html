@@ -1,0 +1,40 @@
+<div class="ui fixed inverted menu">
+  <div class="ui container">
+    <a href="/" class="header item">
+      <i class="big map icon"></i>
+      <code>Nasjonal Turbase Developer</code>
+    </a>
+
+    {% if req.session.auth %}
+    <div class="ui simple dropdown item right">
+      {{ req.session.auth.fullName }} <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="header">Logget inn som {{ req.session.auth.userName }}</div>
+        <div class="divider"></div>
+        <a href="/profile" class="item">Din profil</a>
+        <a href="/app" class="item">Dine apps</a>
+        <a href="/app/new" class="item">Ny app</a>
+        {% if req.session.auth.isAdmin %}
+          <div class="header">Admin</div>
+          <div class="divider"></div>
+          <a href="/admin/app" class="item">
+            <span class="description">{{ req.session.stats.active|d(0) }} apps</span>
+            <span class="text">Alle apps</span>
+          </a>
+          <a href="/admin/app/pending" class="item">
+            <span class="description">{{ req.session.stats.pending|d(0) }} apps</span>
+            <span class="text">Nye apps</span>
+          </a>
+          <a href="/admin/app/requests" class="item">
+            <span class="description">{{ req.session.stats.request|d(0) }} apps</span>
+            <span class="text">Nye limits</span>
+          </a>
+        {% endif %}
+        <div class="divider"></div>
+        <a href="/logout" class="item">Logg ut</a>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
