@@ -8,7 +8,8 @@
     "grunt": "grunt",
     "lint": "eslint test/ lib/ apps/ index.js",
     "test": "mocha -r test/support/env -R tap -b --check-leaks test/acceptance/",
-    "watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/acceptance/"
+    "watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/acceptance/",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "eslint-config-airbnb": "^7.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "mocha": "^2.4.5",
+    "semantic-release": "^4.3.5",
     "supertest": "^1.2.0",
     "supervisor": "^0.10.0"
   },
