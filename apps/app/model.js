@@ -30,7 +30,7 @@ appSchema.virtual('slugg').get(function appSchemaVirtualSlugg() {
 });
 
 const ownerSchema = new Schema({
-userId: Number,
+  userId: Number,
   userName: String,
   email: String,
   fullName: String,
