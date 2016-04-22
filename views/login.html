@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Login – {{ super() }}{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+      body {
+        background-color: #DADADA;
+      }
+      body > .grid {
+        height: 100%;
+      }
+      .image {
+        margin-top: -100px;
+      }
+      .column {
+        max-width: 450px;
+      }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui green image header">
+      <i class="huge map icon"></i>
+      <div class="content">Nasjonal Turbase Developer</div>
+    </h2>
+    <form class="ui large form">
+      <div class="ui stacked segment">
+        <a href="/login/github" class="ui fluid large green submit button">
+          <i class="github icon"></i> Logg inn med GitHub
+        </a>
+      </div>
+
+    {% if error %}
+      <div class="ui left aligned top aligned negative message">
+        <i class="close icon"></i>
+        <div class="header">Error: {{ error }}</div>
+        <p>{{ errorDescription }}</p>
+      </div>
+    {% endif %}
+
+    </form>
+
+    <div class="ui message">
+      Ny til Nasjonal Turbase? <a href="http://www.nasjonalturbase.no">Les mer</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
