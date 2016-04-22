@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Profile – {{ super() }}{% endblock %}
+
+{% block container %}
+{% block header %}{% endblock %}
+<div class="ui centered grid">
+  <div class="row">
+    <div class="four wide column">
+      <img class="ui medium circular image" src="{{ req.session.auth.avatarUrl }}">
+    </div>
+
+    <div class="twelve wide column">
+      <h1 class="ui header">Velkommen {{ user.fullName }} ({{ user.userId }})</h1>
+
+      {% include "components/message.html" %}
+
+      {% if api.isNew %}
+        <div class="ui blue segment">
+          <p>Hvis du allerede har en API-nøkkel til Nasjonal Turbase kan du
+          lenke den til din profil ved å legge inn API-nøkkelen din her.</p>
+
+          <form method="post" action="/profile/link" class="ui form link">
+            <div class="inline fields">
+              <label>API-nøkkel</label>
+
+              <div class="field">
+                <input type="text" name="api_key" placeholder="Din API-nøkkel">
+              </div>
+
+              <div class="field">
+                <button class="positive ui button" type="submit">Link</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      {% elif not api.apps.length %}
+        <div class="ui icon message">
+          <i class="cube icon"></i>
+          <div class="content">
+            <div class="header">Registrer din applikasjon</div>
+            <p><a href="/app/new">Registrer din første applikasjon</a> for å få
+            API tilgang til Nasjonal Turbase.</p>
+          </div>
+        </div>
+      {% endif %}
+
+      <h2 class="ui header">Kontaktinformasjon</h2>
+
+      <form method="post" class="ui form contact">
+        {% if api.isNew %}
+          <div class="field required">
+            <label>Brukernavn</label>
+            <input type="text" name="provider" value="{{ api.provider }}">
+            <p>Brukernavn assosieres med objekter du oppretter. Brukernavn må
+            være ett ord med store bokstaver og tall. Eks. <i>TEST123</i>.</p>
+          </div>
+        {% endif %}
+
+        <div class="field required">
+          <label>Navn</label>
+          <input type="text" name="name" value="{{ api.contact.name }}">
+        </div>
+
+        <div class="two fields">
+          <div class="field required">
+            <label>Epost</label>
+            <input type="email" name="email" value="{{ api.contact.email }}">
+          </div>
+
+          <div class="field required">
+            <label>Telefon</label>
+            <input type="text" name="phone" value="{{ api.contact.phone }}">
+          </div>
+        </div>
+
+        <div class="field required">
+          <div class="ui checkbox">
+            <input type="checkbox" name="terms" tabindex="0" class="hidden"
+              value="1" {% if api.terms > 0 %}checked="checked"{% endif %}>
+            <label>Jeg godtar vilkår for bruk av Nasjonal Turbase</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui checkbox">
+            <input type="checkbox" name="notify" tabindex="0" class="hidden"
+              value="1" {% if api.notify %}checked="checked"{% endif %}>
+            <label>Jeg ønsker å motta informasjon fra Nasjonal Turbase</label>
+          </div>
+        </div>
+
+        <button class="ui primary submit button" type="submit">Lagre</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script src="/static/js/api/profile.js"></script>
+{% endblock %}
