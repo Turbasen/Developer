@@ -1,0 +1,7 @@
+{% if error %}
+  <div class="ui {{ error.class | default('negative') }} message">
+    <i class="close icon"></i>
+    <div class="header">{{ error.title | default('Validering Feilet') }}</div>
+    <p>{{ error.message }}</p>
+  </div>
+{% endif %}

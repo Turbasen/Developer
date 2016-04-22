@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Apps – {{ super() }}{% endblock %}
+
+{% block container %}
+{% block header %}{% endblock %}
+<div class="ui centered grid">
+  <div class="row">
+    <div class="four wide column">
+      <div class="ui fluid vertical menu">
+        <a class="item {% if not page %}active{% endif %}" href="/app">
+          <h4 class="ui header">
+            <i class="cubes icon"></i>
+            Dine apps
+          </h4>
+          <p>Dine API applikasjoner</p>
+        </a>
+        <a class="item {% if page == 'new' %}active{% endif %}" href="/app/new">
+          <h4 class="ui header">
+            <i class="cube icon"></i>
+            Ny app
+          </h4>
+          <p>Registrer ny applikasjon</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="twelve wide column">
+      {% include "components/message.html" %}
+
+      {% block content %}
+      {% for app in keys %}
+        <div class="ui" id="{{ app.slugg }}" style="margin-bottom: 10px;">
+          <div class="ui attached message">
+            <div class="header">{{ app.name }}</div>
+          </div>
+          {% if app.active or not app.approved %}
+          <form class="ui form attached fluid segment" method="post" action="/app/{{ app._id }}">
+            <div class="two fields">
+              <div class="field">
+                <label>App Navn</label>
+                <input type="text" name="name" value="{{ app.name }}">
+              </div>
+              <div class="field">
+                <label>URL</label>
+                <input type="text" name="url" value="{{ app.url }}">
+              </div>
+            </div>
+            <div class="field">
+              <label>Beskrivelse</label>
+              <textarea rows="2" name="desc">{{ app.desc }}</textarea>
+            </div>
+            <div class="fields">
+              <div class="twelve wide field">
+                <label>Prod Nøkkel</label>
+                <div class="ui action input">
+                  <input type="text" name="key_prod" value="{{ app.key.prod }}"
+                    readonly="">
+                  <button class="ui teal right labeled icon button copy"
+                    data-clipboard-text="{{ app.key.prod }}">
+                      <i class="copy icon"></i> Kopier
+                  </button>
+                </div>
+              </div>
+              <div class="four wide field">
+                <label>Rate Limit</label>
+                <input type="text" name="limit_prod"
+                  value="{{ app.limit.prodRequest | d(app.limit.prod) }}">
+              </div>
+            </div>
+            <div class="fields">
+              <div class="twelve wide field">
+                <label>Dev Nøkkel</label>
+                <div class="ui action input">
+                  <input type="text" name="key_dev" value="{{ app.key.dev }}"
+                    readonly="">
+                  <button class="ui teal right labeled icon button copy"
+                    data-clipboard-text="{{ app.key.dev }}">
+                      <i class="copy icon"></i> Kopier
+                  </button>
+                </div>
+              </div>
+              <div class="four wide field">
+                <label>Rate Limit</label>
+                <input type="text" name="limit_dev"
+                  value="{{ app.limit.devRequest | d(app.limit.dev) }}">
+              </div>
+            </div>
+            <button class="ui blue submit button" name="save" value="true">
+              Lagre
+            </button>
+            {% if app.active %}
+              <button class="ui red submit button" name="deactivate" value="true">
+                Deaktiver
+              </button>
+            {% endif %}
+          </form>
+          {% endif %}
+          {% if not app.approved %}
+            <div class="ui bottom attached info message">
+              <i class="icon wait"></i>
+              Denne applikasjonen venter på godkjenning.
+            </div>
+          {% elif not app.active %}
+            <div class="ui bottom attached warning message">
+              <i class="icon warning"></i>
+              Denne applikasjonen er deaktivert.
+            </div>
+          {% elif app.limit.devRequest or app.limit.prodRequest %}
+            <div class="ui bottom attached info message">
+              <i class="icon wait"></i>
+              Endring av API rate-limit venter på godkjenning.
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script src="/static/js/api/profile.js"></script>
+{% endblock %}

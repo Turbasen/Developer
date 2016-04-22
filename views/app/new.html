@@ -1,0 +1,27 @@
+{% set page = 'new' %}
+{% extends "app/index.html" %}
+
+{% block title %}Ny - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="ui" style="margin-bottom: 10px;">
+  <div class="ui attached message">
+    <div class="header">Registrer ny applikasjon</div>
+  </div>
+  <form class="ui form attached fluid segment" method="post">
+    <div class="field required">
+      <label>Navn</label>
+      <input type="text" name="name" placeholder="Navn på applikasjonen">
+    </div>
+    <div class="field">
+      <label>URL</label>
+      <input type="text" name="url" placeholder="URL til applikasjonen">
+    </div>
+    <div class="field required">
+      <label>Beskrivelse</label>
+      <textarea rows="2" name="desc"></textarea>
+    </div>
+    <button class="ui blue submit button" type="submit">Lagre</button>
+  </form>
+</div>
+{% endblock %}
