@@ -3,10 +3,14 @@ version: '2'
 services:
   dev:
     image: node:argon
+    network_mode: 'bridge'
     working_dir: /usr/src/app
     ports:
         - 8080
     depends_on:
+        - mongo
+        - redis
+    links:
         - mongo
         - redis
     volumes:
@@ -23,6 +27,8 @@ services:
 
   redis:
     image: redis:3
+    network_mode: 'bridge'
 
   mongo:
     image: mongo:3
+    network_mode: 'bridge'
