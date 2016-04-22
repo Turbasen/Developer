@@ -1,0 +1,29 @@
+[{
+  "userId": 12345,
+  "userName": "Foo",
+  "email": "foo.bar@example.com",
+  "fullName": "Foo Bar",
+  "accessToken": "abc123",
+  "avatarUrl": "https://avatars.githubusercontent.com/u/12345?v=3"
+}, {
+  "userId": 67890,
+  "userName": "Bar",
+  "email": "bar.foo@example.com",
+  "fullName": "Bar Foo",
+  "accessToken": "xyz789",
+  "avatarUrl": "https://avatars.githubusercontent.com/u/67890?v=3"
+}, {
+  "userId": 98765,
+  "userName": "Baz",
+  "email": "baz.bix@example.com",
+  "fullName": "Baz Bix",
+  "accessToken": "xkcd1337",
+  "avatarUrl": "https://avatars.githubusercontent.com/u/98765?v=3"
+}, {
+  "userId": 98766,
+  "userName": "Bez",
+  "email": "bez.biz@example.com",
+  "fullName": "Bez Bix",
+  "accessToken": "ffee12",
+  "avatarUrl": "https://avatars.githubusercontent.com/u/98766?v=3"
+}]
