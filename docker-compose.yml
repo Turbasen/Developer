@@ -21,9 +21,8 @@ services:
         - NODE_ENV=development
         - VIRTUAL_HOST=developer.turbasen.privat
         - VIRTUAL_PORT=8080
-        - MONGO_DB=test
-        - APP_ADMINS=Starefossen,Foo,Bar
-        - APP_SECRET=foobar
+        - APP_SECRET=not-a-secret
+        - APP_ADMINS=Starefossen,kvikshaug
 
   redis:
     image: redis:3
