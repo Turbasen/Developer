@@ -69,7 +69,7 @@ app.post('/link', (req, res, next) => {
 
   const query = {
     'apps.key.prod': req.body.api_key,
-    'owner': { $size: 0 },
+    owner: { $size: 0 },
   };
 
   ApiUser.findOne(query).exec((findErr, doc) => {
