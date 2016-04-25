@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: 0 */
 'use strict';
 
 const router = require('express').Router;
@@ -11,12 +10,9 @@ const filters = require('./filters');
 const APPS_FREE = process.env.APPS_FREE || 1;
 
 if (module.parent.exports.nunjucks) {
-  for (const filter in require('./filters')) {
-    // if-check to make eslint stop complaining!
-    if (/^\w+$/.test(filter)) {
-      module.parent.exports.nunjucks.addFilter(filter, filters[filter]);
-    }
-  }
+  Object.keys(filters).forEach(filter => {
+    module.parent.exports.nunjucks.addFilter(filter, filters[filter]);
+  });
 }
 
 // get api user for authenticated user

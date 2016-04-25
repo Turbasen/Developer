@@ -28,7 +28,8 @@
   "homepage": "https://github.com/Turbasen/Developer#readme",
   "devDependencies": {
     "eslint": "^2.8.0",
-    "eslint-config-airbnb": "^7.0.0",
+    "eslint-config-airbnb-base": "^1.0.3",
+    "eslint-plugin-import": "^1.5.0",
     "grunt-contrib-watch": "^1.0.0",
     "mocha": "^2.4.5",
     "semantic-release": "^4.3.5",
