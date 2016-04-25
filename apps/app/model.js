@@ -46,7 +46,7 @@ const userSchema = new Schema({
     required: 'Brukernavn kan ikke være tomt',
     validate: {
       validator: v => /^[A-Z0-9]{3,}$/.test(v),
-      message: 'Brukernavn må består av store bokstaver og tall',
+      message: 'Brukernavn kan bare bestå av store bokstaver og tall uten mellomrom',
     },
   },
   updated: { type: Date, default: Date.now },
