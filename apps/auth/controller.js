@@ -37,7 +37,7 @@ app.get('/login/github', (req, res) => {
 
   const authURL = oauth2.getAuthorizeUrl({
     redirect_uri: `${originalUrl}/callback`,
-    scope: 'repo,user',
+    scope: 'user:email',
     state: process.env.GH_OAUTH_RANDOM,
   });
 
