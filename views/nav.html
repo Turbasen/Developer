@@ -17,7 +17,7 @@
         {% if req.session.auth.isAdmin %}
           <div class="header">Admin</div>
           <div class="divider"></div>
-          <a href="/admin/app" class="item">
+          <a href="/admin" class="item">
             <span class="description">{{ req.session.stats.active|d(0) }} apps</span>
             <span class="text">Alle apps</span>
           </a>

@@ -1,0 +1,28 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Users - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="ui four cards">
+  {% for app in apps %}
+    <div class="ui card">
+      <div class="image">
+        <img src="{{ app.owner[0].avatarUrl|d("/static/images/image.png") }}">
+      </div>
+      <div class="content">
+        <a class="header">{{ app.provider }}</a>
+        <div class="meta">
+          <span class="date">{{ app.updated|dateformat("YYYY-MM-DD HH:MM") }}</span>
+        </div>
+        <div class="description">{{ app.contact.name }}</div>
+      </div>
+      <div class="extra content">
+        <a>
+          <i class="cubes icon"></i>
+          {{ app.apps.length }} apps
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

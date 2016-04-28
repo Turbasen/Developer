@@ -1,0 +1,20 @@
+<div class="ui fluid vertical menu">
+  <a class="item {% if not page %}active{% endif %}" href="/admin/users">
+    <h4 class="ui header">
+      <i class="users icon"></i> API brukere
+    </h4>
+    <p>Alle API brukere</p>
+  </a>
+  <a class="item {% if page == 'new' %}active{% endif %}" href="/admin/requests">
+    <h4 class="ui header">
+      <i class="certificate icon"></i> Nye apps
+    </h4>
+    <p>Nye applikasjoner til godkjenning</p>
+  </a>
+  <a class="item {% if page == 'new' %}active{% endif %}" href="/admin/limits">
+    <h4 class="ui header">
+      <i class="line chart icon"></i> Nye limits
+    </h4>
+    <p>Nye rate limits til godkjenning</p>
+  </a>
+</div>
