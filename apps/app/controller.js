@@ -197,4 +197,6 @@ app.post('/:id/disable', (req, res, next) => {
   });
 });
 
+app.get('*', (req, res) => res.redirect('/app'));
+
 module.exports = app;
