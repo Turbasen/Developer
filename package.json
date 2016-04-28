@@ -61,6 +61,6 @@
     "semantic-ui-less": "^2.1.8"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": "^4.0.0"
   }
 }
