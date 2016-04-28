@@ -9,6 +9,7 @@
     "lint": "eslint test/ lib/ apps/ index.js",
     "test": "mocha -r test/support/env -R tap -b --check-leaks test/acceptance/",
     "watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/acceptance/",
+    "cover": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- -r test/support/env -R spec test/acceptance/",
     "semantic-release": "semantic-release"
   },
   "repository": {
@@ -31,6 +32,7 @@
     "eslint-config-airbnb-base": "^1.0.3",
     "eslint-plugin-import": "^1.5.0",
     "grunt-contrib-watch": "^1.0.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "semantic-release": "^4.3.5",
     "supertest": "^1.2.0",
