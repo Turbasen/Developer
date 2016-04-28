@@ -31,4 +31,6 @@ app.get('/users', (req, res, next) => {
   });
 });
 
+app.get('*', (req, res) => res.redirect('/admin'));
+
 module.exports = app;
