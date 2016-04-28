@@ -7,6 +7,11 @@
   {% for app in apps %}
     <div class="ui card">
       <div class="image">
+        {% if app.days < 7 %}
+          <div class="ui blue ribbon label">
+            <i class="certificate icon"></i> New
+          </div>
+        {% endif %}
         <img src="{{ app.owner[0].avatarUrl|d("/static/images/image.png") }}">
       </div>
       <div class="content">
