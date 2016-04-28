@@ -1,4 +1,5 @@
 *.log
 .env
+coverage
 static/css
 static/js/semantic-ui.js
