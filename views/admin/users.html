@@ -22,10 +22,10 @@
         <div class="description">{{ app.contact.name }}</div>
       </div>
       <div class="extra content">
-        <a>
-          <i class="cubes icon"></i>
-          {{ app.apps.length }} apps
-        </a>
+        <span class="right floated">
+          <i class="users icon"></i> {{ app.owner.length }} eiere
+        </span>
+        <i class="cubes icon"></i> {{ app.apps.length }} apps
       </div>
     </div>
   {% endfor %}
