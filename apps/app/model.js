@@ -6,6 +6,7 @@ const keygen = require('../../lib/keygen');
 const appsort = require('../../lib/appsort');
 
 const github = require('../../lib/github');
+const moment = require('moment');
 
 const appSchema = new Schema({
   active: { type: Boolean, default: true },
@@ -64,6 +65,10 @@ const userSchema = new Schema({
     min: [1, 'Du må akseptere vilkårene'],
   },
   notify: { type: Boolean, default: true },
+});
+
+userSchema.virtual('days').get(function appSchemaVirtualIsNew() {
+  return moment(Date.now()).diff(this.updated, 'days');
 });
 
 userSchema.set('strict', false);
