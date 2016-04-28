@@ -23,9 +23,11 @@
       </div>
       <div class="extra content">
         <span class="right floated">
-          <i class="users icon"></i> {{ app.owner.length }} eiere
+          <i class="users icon"></i> {{ app.owner.length }}
+          {% if app.owner.length == 1 %}eier{% else %}eiere{% endif %}
         </span>
-        <i class="cubes icon"></i> {{ app.apps.length }} apps
+        <i class="cubes icon"></i> {{ app.apps.length }}
+        {% if app.owner.length == 1 %}app{% else %}apps{% endif %}
       </div>
     </div>
   {% endfor %}
