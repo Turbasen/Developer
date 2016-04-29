@@ -2,4 +2,5 @@
 .env
 coverage
 static/css
-static/js/semantic-ui.js
+static/js/bundle.js
+static/images/icons.svg
