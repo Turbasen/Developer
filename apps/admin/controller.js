@@ -31,6 +31,10 @@ app.get('/users', (req, res, next) => {
   });
 });
 
+app.get('/email', (req, res, nxt) => {
+  res.render('admin/email.html', { req });
+});
+
 app.get('*', (req, res) => res.redirect('/admin'));
 
 module.exports = app;

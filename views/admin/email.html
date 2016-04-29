@@ -1,0 +1,65 @@
+{% set page = 'email' %}
+{% set cclass = 'email' %}
+{% extends "admin/layout.html" %}
+
+{% block title %}Epost - {{ super() }}{% endblock %}
+
+{% block content %}
+<h2 class="ui header">
+  <i class="send icon"></i>
+  <div class="content">
+    Epostmelding til API-brukere
+    <div class="sub header">Send epost til alle API-brukere av Nasjonal Turbase</div>
+  </div>
+</h2>
+
+<form class="ui form">
+  <div class="field">
+    <label>Emne</label>
+    <input type="text" name="subject" placeholder="Emne for epost">
+  </div>
+  <div class="field">
+    <label>Innhold</label>
+    <textarea name="content">
+      <p><strong>Hei {% raw %}{{ user.name }}{% endraw %},</strong></p>
+      <p>Sett inn din melding her.</p>
+      <hr>
+      <p>
+        Om du ikke ønsker å mota epost fra Nasjonal Turbase i fremtiden kan du
+        gå til <a href="https://developer.nasjonalturbase.no/profil">din profil</a>
+        for å melde deg av.
+      <p>
+    </textarea>
+  </div>
+  <div class="field">
+    <label>Avsender</label>
+    <select class="ui fluid dropdown">
+      <option>hjelp@dnt.no</option>
+    </select>
+  </div>
+  <div class="ui segment">
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="nogithub" tabindex="0" class="hidden">
+        <label>Bare send til brukere <em>uten</em> GitHub-konto</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="github" tabindex="0" class="hidden">
+        <label>Bare send til brukere <em>med</em> GitHub-konto</label>
+      </div>
+    </div>
+  </div>
+  <div class="ui button" tabindex="0">
+    Test
+  </div>
+  <div class="ui primary button" tabindex="0">
+    <i class="send icon"></i> Send
+  </div>
+</form>
+{% endblock %}
+
+{% block footer %}
+<script src="/static/js/admin/email.js"></script>
+{% endblock %}
