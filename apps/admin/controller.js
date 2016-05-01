@@ -7,6 +7,7 @@ const app = router();
 const ApiUser = require('../app/model').ApiUser;
 
 const filters = require('./filters');
+const sendgrid = require('../../lib/sendgrid');
 
 if (module.parent.exports.nunjucks) {
   Object.keys(filters).forEach(filter => {
@@ -31,8 +32,51 @@ app.get('/users', (req, res, next) => {
   });
 });
 
-app.get('/email', (req, res, nxt) => {
+app.get('/email', (req, res) => {
+  const error = req.session.message;
+
+  delete req.session.message;
   res.render('admin/email.html', { req });
+});
+
+app.post('/email', (req, res, next) => {
+  const query = { 'owner.userId': req.session.auth.userId };
+  const template = req.body.content;
+  const context = {
+    site: {
+      url: `${req.protocol}://${req.get('host')}`,
+    }
+  };
+
+  if (req.body.send) {
+    // @TODO
+  } else {
+    ApiUser.findOne(query, (err, api) => {
+      if (err) { return next(err); }
+
+      context.api = api;
+      context.user = api.contact;
+
+      sendgrid.renderTemplate(template, context, (err, data) => {
+        if (err && err.name == 'Template render error') {
+          const error = { message: err.toString() };
+          return res.render('admin/email.html', { req, error, body: req.body });
+        } else if (err) {
+          return next(err);
+        }
+
+        if (req.body.test) {
+          // @TODO
+        } else {
+          return res.render('admin/email.html', {
+            req,
+            body: req.body,
+            preview: data,
+          });
+        }
+      });
+    });
+  }
 });
 
 app.get('*', (req, res) => res.redirect('/admin'));

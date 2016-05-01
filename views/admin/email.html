@@ -8,55 +8,72 @@
 <h2 class="ui header">
   <i class="send icon"></i>
   <div class="content">
-    Epostmelding til API-brukere
+    Epostliste
     <div class="sub header">Send epost til alle API-brukere av Nasjonal Turbase</div>
   </div>
 </h2>
 
-<form class="ui form">
+<form class="ui form" method="post">
   <div class="field">
     <label>Emne</label>
-    <input type="text" name="subject" placeholder="Emne for epost">
+    <input type="text" name="subject" value="{{ body.subject }}">
   </div>
+  {% if preview %}
+    <div class="field">
+      <label>Forhåndsvisning</label>
+      <div class="ui segment">{{ preview | safe }}</div>
+    </div>
+  {% endif %}
   <div class="field">
     <label>Innhold</label>
-    <textarea name="content">
+    <textarea name="content">{% if body.content %}{{ body.content }}{% else %}
       <p><strong>Hei {% raw %}{{ user.name }}{% endraw %},</strong></p>
       <p>Sett inn din melding her.</p>
       <hr>
       <p>
-        Om du ikke ønsker å mota epost fra Nasjonal Turbase i fremtiden kan du
-        gå til <a href="https://developer.nasjonalturbase.no/profil">din profil</a>
-        for å melde deg av.
+        Du kan også
+        <a href="{% raw %}{{ site.url }}{% endraw %}/email/unsubscribe/{% raw%}{{ api._id }}{% endraw %}">
+          melde deg av disse epostene
+        </a> eller
+        <a href="{% raw %}{{ site.url }}{% endraw %}/profil">
+          endre varslingsinnstillingene dine
+        </a>.
       <p>
-    </textarea>
+    {% endif %}</textarea>
   </div>
   <div class="field">
     <label>Avsender</label>
-    <select class="ui fluid dropdown">
-      <option>hjelp@dnt.no</option>
+    <select name="from" class="ui fluid dropdown">
+      <option{% if body.form == "hjelp@dnt.no" %} selected="selected"{% endif %}>
+        hjelp@dnt.no
+      </option>
     </select>
   </div>
   <div class="ui segment">
     <div class="field">
       <div class="ui toggle checkbox">
-        <input type="checkbox" name="nogithub" tabindex="0" class="hidden">
+        <input type="checkbox" name="nogithub" value="1" tabindex="0" class="hidden"
+        {% if body.nogithub == "1" %}checked="checked"{% endif %}>
         <label>Bare send til brukere <em>uten</em> GitHub-konto</label>
       </div>
     </div>
     <div class="field">
       <div class="ui toggle checkbox">
-        <input type="checkbox" name="github" tabindex="0" class="hidden">
+        <input type="checkbox" name="github" value="1" tabindex="0" class="hidden"
+        {% if body.github == "1" %}checked="checked"{% endif %}>
         <label>Bare send til brukere <em>med</em> GitHub-konto</label>
       </div>
     </div>
   </div>
-  <div class="ui button" tabindex="0">
+  <button name="preview" value="true" class="ui button" type="submit" tabindex="0">
+    Forhåndsvis
+  </button>
+  <button name="test" value="true" class="ui button" type="submit" tabindex="0">
     Test
-  </div>
-  <div class="ui primary button" tabindex="0">
+  </button>
+  <button name="send" value="true" class="ui primary button" type="submit" tabindex="0">
     <i class="send icon"></i> Send
-  </div>
+  </button>
 </form>
 {% endblock %}
 
