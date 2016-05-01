@@ -45,35 +45,37 @@ app.post('/email', (req, res, next) => {
   const context = {
     site: {
       url: `${req.protocol}://${req.get('host')}`,
-    }
+    },
   };
 
   if (req.body.send) {
     // @TODO
+    res.end();
   } else {
-    ApiUser.findOne(query, (err, api) => {
-      if (err) { return next(err); }
+    ApiUser.findOne(query, (findErr, api) => {
+      if (findErr) { return next(findErr); }
 
       context.api = api;
       context.user = api.contact;
 
-      sendgrid.renderTemplate(template, context, (err, data) => {
-        if (err && err.name == 'Template render error') {
-          const error = { message: err.toString() };
+      return sendgrid.renderTemplate(template, context, (tempErr, data) => {
+        if (tempErr && tempErr.name === 'Template render error') {
+          const error = { message: tempErr.toString() };
           return res.render('admin/email.html', { req, error, body: req.body });
-        } else if (err) {
-          return next(err);
+        } else if (tempErr) {
+          return next(tempErr);
         }
 
         if (req.body.test) {
           // @TODO
-        } else {
-          return res.render('admin/email.html', {
-            req,
-            body: req.body,
-            preview: data,
-          });
+          return res.end();
         }
+
+        return res.render('admin/email.html', {
+          req,
+          body: req.body,
+          preview: data,
+        });
       });
     });
   }
