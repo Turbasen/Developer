@@ -48,7 +48,7 @@ app.post('/link', (req, res, next) => {
 
     res.set('x-app-status', 'failure');
     res.set('x-app-message', 'link_forbidden');
-    res.redirect(403, '/profile');
+    res.redirect(303, '/profile');
 
     return;
   }
