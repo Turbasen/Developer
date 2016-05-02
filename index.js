@@ -2,12 +2,15 @@
 'use strict';
 
 const express = require('express');
+const raven = require('raven');
 const statics = express.static;
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 const db = require('./lib/db');
 
 const app = module.exports.app = express();
+app.use(raven.middleware.express.requestHandler(process.env.SENTRY_DSN));
+
 app.set('x-powered-by', false);
 app.set('trust proxy', 1);
 
@@ -38,10 +41,10 @@ app.use('/app', require('./apps/app/controller'));
 app.use('/admin', require('./apps/admin/controller'));
 app.use('/email', require('./apps/email/controller'));
 
-// Redirect to /app
-app.get('/', (req, res) => {
-  res.redirect('/app');
-});
+app.get('/', (req, res) => { res.redirect('/app'); });
+app.get('*', (req, res) => { res.redirect('/app'); });
+
+app.use(raven.middleware.express.errorHandler(process.env.SENTRY_DSN));
 
 // Error Handler
 app.use((err, req, res, next) => {
