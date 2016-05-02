@@ -36,6 +36,7 @@ app.use('/', require('./apps/auth/controller'));
 app.use('/profile', require('./apps/profile/controller'));
 app.use('/app', require('./apps/app/controller'));
 app.use('/admin', require('./apps/admin/controller'));
+app.use('/email', require('./apps/email/controller'));
 
 // Redirect to /app
 app.get('/', (req, res) => {

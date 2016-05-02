@@ -1,0 +1,26 @@
+{% extends "login.html" %}
+
+{% block title %}Avmelding – Nasjonal Turbase{% endblock %}
+
+{% block form %}
+<h2 class="ui image header">
+  <i class="send icon"></i>
+  <div class="content">Avmelding</div>
+</h2>
+<form class="ui large form" method="post">
+  <div class="ui stacked segment">
+    <div class="two fields">
+      <div class="field">
+        <input name="email" type="email" placeholder="Epost">
+      </div>
+      <div class="field">
+        <button type="submit" class="ui fluid large submit button">
+          Meld av
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% include "components/message.html" %}
+</form>
+{% endblock %}
