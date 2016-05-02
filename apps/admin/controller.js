@@ -40,8 +40,10 @@ app.get('/email', (req, res) => {
 });
 
 app.post('/email', (req, res, next) => {
-  const query = { 'owner.userId': req.session.auth.userId };
+  const from = req.body.from;
+  const subject = req.body.subject;
   const template = req.body.content;
+
   const context = {
     site: {
       url: `${req.protocol}://${req.get('host')}`,
@@ -52,13 +54,15 @@ app.post('/email', (req, res, next) => {
     // @TODO
     res.end();
   } else {
+    const query = { 'owner.userId': req.session.auth.userId };
+
     ApiUser.findOne(query, (findErr, api) => {
       if (findErr) { return next(findErr); }
 
       context.api = api;
       context.user = api.contact;
 
-      return sendgrid.renderTemplate(template, context, (tempErr, data) => {
+      return sendgrid.renderTemplate(template, context, (tempErr, rendered) => {
         if (tempErr && tempErr.name === 'Template render error') {
           const error = { message: tempErr.toString() };
           return res.render('admin/email.html', { req, error, body: req.body });
@@ -67,8 +71,23 @@ app.post('/email', (req, res, next) => {
         }
 
         if (req.body.test) {
-          // @TODO
-          return res.end();
+          const to = req.session.auth.email;
+
+          return sendgrid.sendTemplate(rendered, subject, from, to, (sendErr, data) => {
+            let error;
+
+            if (sendErr) {
+              error = sendErr;
+            } else {
+              error = {
+                title: 'Test sendt',
+                message: `Epost ble sendt til ${to}`,
+                class: 'positive',
+              };
+            }
+
+            res.render('admin/email.html', { req, error, body: req.body });
+          });
         }
 
         return res.render('admin/email.html', {

@@ -30,7 +30,7 @@
       <p><strong>Hei {% raw %}{{ user.name }}{% endraw %},</strong></p>
       <p>Sett inn din melding her.</p>
       <hr>
-      <p>
+      <p><small>
         Du kan også
         <a href="{% raw %}{{ site.url }}{% endraw %}/email/unsubscribe/{% raw%}{{ api._id }}{% endraw %}">
           melde deg av disse epostene
@@ -38,7 +38,7 @@
         <a href="{% raw %}{{ site.url }}{% endraw %}/profil">
           endre varslingsinnstillingene dine
         </a>.
-      <p>
+      <small><p>
     {% endif %}</textarea>
   </div>
   <div class="field">
