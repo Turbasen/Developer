@@ -93,7 +93,7 @@ app.post('/email', (req, res, next) => {
         return res.render('admin/email.html', {
           req,
           body: req.body,
-          preview: data,
+          preview: rendered,
         });
       });
     });
