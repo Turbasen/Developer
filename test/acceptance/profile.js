@@ -38,7 +38,7 @@ describe('POST /profile/link', () => {
       .send({ api_key: 'fookey' })
       .expect('x-app-status', 'failure')
       .expect('x-app-message', 'link_forbidden')
-      .expect(403, done);
+      .expect(303, done);
   });
 
   it('returns error for linking empty api key', (done) => {
