@@ -2,6 +2,7 @@
 'use strict';
 
 const router = require('express').Router;
+const each = require('async-each-map');
 
 const app = router();
 const ApiUser = require('../app/model').ApiUser;
@@ -50,9 +51,55 @@ app.post('/email', (req, res, next) => {
     },
   };
 
+  // Send to all
   if (req.body.send) {
-    // @TODO
-    res.end();
+    const query = { 'contact.email': { $exists: true } };
+
+    if (req.body.github || req.body.nogithub) {
+      query['owner.0'] = { $exists: !!req.body.github };
+    }
+
+    ApiUser.find(query, (findErr, apis) => {
+      if (findErr) { return next(findErr); }
+
+      return each(apis, (api, cont) => {
+        context.api = api;
+        context.user = api.contact;
+
+        sendgrid.renderTemplate(template, context, (tempErr, rendered) => {
+          if (tempErr) { return cont(tempErr); }
+
+          let to = api.contact.email;
+
+          // Send to author if env is not production
+          if (process.env.NODE_ENV !== 'production') {
+            to = req.session.auth.email;
+          }
+
+          return sendgrid.sendTemplate(rendered, subject, from, to, sendErr => {
+            if (sendErr) { return cont(sendErr); }
+            return cont();
+          });
+        });
+      }, apiErr => {
+        let error;
+
+        if (apiErr) {
+          error = apiErr;
+          error.title = 'Epost feilet';
+        } else {
+          error = {
+            title: 'Epost sendt',
+            message: `Epost ble sendt til ${apis.length} brukere.`,
+            class: 'positive',
+          };
+        }
+
+        res.render('admin/email.html', { req, error, body: req.body });
+      });
+    });
+
+  // Preview and Test
   } else {
     const query = { 'owner.userId': req.session.auth.userId };
 
@@ -70,14 +117,16 @@ app.post('/email', (req, res, next) => {
           return next(tempErr);
         }
 
+        // Send Test
         if (req.body.test) {
           const to = req.session.auth.email;
 
-          return sendgrid.sendTemplate(rendered, subject, from, to, (sendErr, data) => {
+          return sendgrid.sendTemplate(rendered, subject, from, to, sendErr => {
             let error;
 
             if (sendErr) {
               error = sendErr;
+              error.title = 'Test feilet';
             } else {
               error = {
                 title: 'Test sendt',
@@ -90,6 +139,7 @@ app.post('/email', (req, res, next) => {
           });
         }
 
+        // Render Preview
         return res.render('admin/email.html', {
           req,
           body: req.body,
