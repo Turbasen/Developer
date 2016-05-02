@@ -16,8 +16,19 @@ module.exports = function(grunt) {
       },
     },
 
+    copy: {
+      dist: {
+        files: [{
+          src: 'node_modules/trumbowyg/dist/ui/icons.svg',
+          dest: 'static/images/icons.svg',
+          flatten: true,
+          filter: 'isFile',
+        }],
+      },
+    },
+
     less: {
-      development: {
+      dist: {
         options: {
           paths: ['node_modules/semantic-ui-less'],
         },
@@ -31,21 +42,29 @@ module.exports = function(grunt) {
       options: {
         separator: ';',
       },
-      dist: {
+      js: {
         src: [
+          'node_modules/jquery/dist/jquery.min.js',
           'node_modules/clipboard/dist/clipboard.min.js',
-          'node_modules/jquery/dist/jquery.slim.min.js',
+          'node_modules/trumbowyg/dist/trumbowyg.min.js',
           'node_modules/semantic-ui-less/definitions/**/*.js',
         ],
-        dest: 'static/js/semantic-ui.js',
+        dest: 'static/js/bundle.js',
+      },
+      css: {
+        src: [
+          'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
+        ],
+        dest: 'static/css/bundle.css',
       },
     },
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['concat', 'less']);
+  grunt.registerTask('default', ['less', 'copy', 'concat']);
 };

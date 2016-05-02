@@ -1,0 +1,82 @@
+{% set page = 'email' %}
+{% set cclass = 'email' %}
+{% extends "admin/layout.html" %}
+
+{% block title %}Epost - {{ super() }}{% endblock %}
+
+{% block content %}
+<h2 class="ui header">
+  <i class="send icon"></i>
+  <div class="content">
+    Epostliste
+    <div class="sub header">Send epost til alle API-brukere av Nasjonal Turbase</div>
+  </div>
+</h2>
+
+<form class="ui form" method="post">
+  <div class="field">
+    <label>Emne</label>
+    <input type="text" name="subject" value="{{ body.subject }}">
+  </div>
+  {% if preview %}
+    <div class="field">
+      <label>Forhåndsvisning</label>
+      <div class="ui segment">{{ preview | safe }}</div>
+    </div>
+  {% endif %}
+  <div class="field">
+    <label>Innhold</label>
+    <textarea name="content">{% if body.content %}{{ body.content }}{% else %}
+      <p><h2>Hei {% raw %}{{ user.name }}{% endraw %},</h2></p>
+      <p>Sett inn din melding her.</p>
+      <hr>
+      <p><small>
+        Du kan også
+        <a href="{% raw %}{{ site.url }}{% endraw %}/email/unsubscribe/{% raw%}{{ api._id }}{% endraw %}">
+          melde deg av disse epostene
+        </a> eller
+        <a href="{% raw %}{{ site.url }}{% endraw %}/profil">
+          endre varslingsinnstillingene dine
+        </a>.
+      <small><p>
+    {% endif %}</textarea>
+  </div>
+  <div class="field">
+    <label>Avsender</label>
+    <select name="from" class="ui fluid dropdown">
+      <option{% if body.form == "hjelp@dnt.no" %} selected="selected"{% endif %}>
+        hjelp@dnt.no
+      </option>
+    </select>
+  </div>
+  <div class="ui segment">
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="nogithub" value="1" tabindex="0" class="hidden"
+        {% if body.nogithub == "1" %}checked="checked"{% endif %}>
+        <label>Bare send til brukere <em>uten</em> GitHub-konto</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui toggle checkbox">
+        <input type="checkbox" name="github" value="1" tabindex="0" class="hidden"
+        {% if body.github == "1" %}checked="checked"{% endif %}>
+        <label>Bare send til brukere <em>med</em> GitHub-konto</label>
+      </div>
+    </div>
+  </div>
+  <button name="preview" value="true" class="ui button" type="submit" tabindex="0">
+    Forhåndsvis
+  </button>
+  <button name="test" value="true" class="ui button" type="submit" tabindex="0">
+    Test
+  </button>
+  <button name="send" value="true" class="ui primary button" type="submit" tabindex="0">
+    <i class="send icon"></i> Send
+  </button>
+</form>
+{% endblock %}
+
+{% block footer %}
+<script src="/static/js/admin/email.js"></script>
+{% endblock %}
