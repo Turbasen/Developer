@@ -20,10 +20,16 @@ const qs = require('querystring');
 const admins = new Set(process.env.APP_ADMINS.split(','));
 
 app.get('/login', (req, res) => {
-  const error = req.query.error;
-  const errorDescription = req.query.error_description;
+  let error;
 
-  res.render('login.html', { req, error, errorDescription });
+  if (req.query.error) {
+    error = {
+      title: `Error: ${req.query.error}`,
+      message: req.query.error_description,
+    };
+  }
+
+  res.render('login.html', { req, error });
 });
 
 app.get('/logout', (req, res) => {
