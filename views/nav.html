@@ -17,17 +17,20 @@
         {% if req.session.auth.isAdmin %}
           <div class="header">Admin</div>
           <div class="divider"></div>
-          <a href="/admin" class="item">
+          <a href="/admin/users" class="item">
             <span class="description">{{ req.session.stats.active|d(0) }} apps</span>
             <span class="text">Alle apps</span>
           </a>
-          <a href="/admin/app/pending" class="item">
+          <a href="/admin/requests" class="item">
             <span class="description">{{ req.session.stats.pending|d(0) }} apps</span>
             <span class="text">Nye apps</span>
           </a>
-          <a href="/admin/app/requests" class="item">
+          <a href="/admin/limits" class="item">
             <span class="description">{{ req.session.stats.request|d(0) }} apps</span>
             <span class="text">Nye limits</span>
+          </a>
+          <a href="/admin/emails" class="item">
+            <span class="text">Epostliste</span>
           </a>
         {% endif %}
         <div class="divider"></div>
@@ -35,6 +38,5 @@
       </div>
     </div>
     {% endif %}
-
   </div>
 </div>
