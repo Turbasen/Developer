@@ -17,12 +17,12 @@ app.use('/', (req, res, next) => {
   ApiUser.findOne(query, (err, api) => {
     if (err) { return next(err); }
 
+    const name = req.session.auth.fullName || req.session.auth.userName;
+    const email = req.session.auth.email;
+
     req.api = api || new ApiUser({
-      provider: req.session.auth.fullName.split(' ').reverse()[0].toUpperCase(),
-      contact: {
-        name: req.session.auth.fullName,
-        email: req.session.auth.email,
-      },
+      provider: name.split(' ').reverse()[0].toUpperCase(),
+      contact: { name, email },
     });
 
     return next();
