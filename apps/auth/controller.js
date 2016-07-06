@@ -73,7 +73,7 @@ app.get('/login/github/callback', (req, res, next) => {
 
       const auth = { accessToken, refreshToken };
 
-      return github.client(auth).user.get({}, (userErr, userData) => {
+      return github.client(auth).users.get({}, (userErr, userData) => {
         if (userErr) { return next(userErr); }
 
         req.session.auth = {
