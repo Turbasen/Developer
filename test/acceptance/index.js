@@ -18,7 +18,9 @@ before(() => {
 
 // Remove any pre-existing models
 // Automattic/mongoose#1251
-before(done => {
+before(function before(done) {
+  this.timeout(10000);
+
   mongoose.models = {};
   mongoose.modelSchemas = {};
 
