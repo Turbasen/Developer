@@ -29,9 +29,11 @@
     "url": "git+ssh://git@github.com/Turbasen/Developer.git"
   },
   "keywords": [
-    "git",
-    "commit",
-    "ci"
+    "turbasen",
+    "nasjonal turbase",
+    "developer",
+    "portal",
+    "ntdn"
   ],
   "author": "Hans Kristian Flaatten <hans@starefossen.com>",
   "license": "MIT",
