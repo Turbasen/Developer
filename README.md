@@ -1,7 +1,8 @@
 # Nasjonal Turbase Developer
 
-[![Build status](https://img.shields.io/wercker/ci/5718986a9cf11bee121d695b.svg "Build status")](https://app.wercker.com/project/bykey/4a58616dc7e40ab460aeac0f9c841f9b)
-[![Codacy](https://img.shields.io/codacy/dbcd9d2540fc4bd78654d95e0694bc41.svg "Codacy")](https://www.codacy.com/app/Turbasen/Developer)
+[![Build status](https://app.wercker.com/status/5a3835c2b0aee058bc7d6a0dc3315880/s "wercker status")](https://app.wercker.com/project/bykey/5a3835c2b0aee058bc7d6a0dc3315880)
+[![Codacy grade](https://img.shields.io/codacy/grade/5718986a9cf11bee121d695b.svg "Codacy grade")](https://www.codacy.com/app/Turbasen/Developer)
+[![Codacy coverage](https://img.shields.io/codacy/coverage/5718986a9cf11bee121d695b.svg "Codacy coverage")](https://www.codacy.com/app/Turbasen/Developer)
 [![NPM downloads](https://img.shields.io/npm/dm/@turbasen/developer.svg "NPM downloads")](https://www.npmjs.com/package/@turbasen/developer)
 [![NPM version](https://img.shields.io/npm/v/@turbasen/developer.svg "NPM version")](https://www.npmjs.com/package/@turbasen/developer)
 [![Node version](https://img.shields.io/node/v/@turbasen/developer.svg "Node version")](https://www.npmjs.com/package/@turbasen/developer)
