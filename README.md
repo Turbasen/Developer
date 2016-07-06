@@ -20,12 +20,15 @@ Developer portal for Nasjonal Turbase.
 * Approve new API apps
 * Approve rate limit changes
 
-## Development
+## Getting started
 
-### Prerequisite
+Download [Docker for Mac or Windows](https://www.docker.com/products/docker).
 
-* Docker > 1.11
-* Docker Compose > 1.7
+Run in this directory:
+
+```
+$ docker-compose up
+```
 
 ### Environment
 
