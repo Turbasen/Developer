@@ -1,10 +1,10 @@
 box: node:argon
 
-services:
-  - redis
-  - mongo
-
 build:
+  services:
+    - mongo:3.0
+    - redis:3
+
   steps:
     - script:
         name: echo nodejs information
@@ -18,46 +18,63 @@ build:
         name: lint
         code: npm run lint
 
+    - script:
+        name: grunt build
+        code: npm run grunt
+
     - npm-test
 
     - script:
         name: test coverage
         code: |
-            npm run cover
-            cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage
+          npm run cover
+          cat ./coverage/lcov.info | npm run codacy-coverage
+
+    - script:
+        name: node security project
+        code: |
+          npm run nsp
 
   after-steps:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
 
-deploy:
-    steps:
-        # Reinstall node_modules to fix broken symlinks
-        # https://github.com/wercker/docs/issues/310
-        - script:
-            name: rm node_modules
-            code: rm -rf node_modules
+docker:
+  steps:
+    - script:
+        name: docker hub build
+        code: |
+          curl --verbose \
+            -H "Content-Type: application/json" \
+            -d "{\"source_type\": \"Branch\", \"source_name\": \"$WERCKER_GIT_BRANCH\"}" \
+            -X POST $DOCKER_TRIGGER_URL
 
-        - npm-install
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
 
-        - script:
-            name: docker hub build
-            code: |
-                curl --verbose \
-                    -H "Content-Type: application/json" \
-                    -d "{\"docker_tag\": \"$DOCKER_TRIGGER_TAG\"}" \
-                    -X POST $DOCKER_TRIGGER_URL
+npm:
+  steps:
+    # Rebuild node_modules to fix broken symlinks
+    # https://github.com/wercker/docs/issues/310
+    - script:
+        name: npm rebuild
+        code: npm rebuild
 
-        - script:
-            name: semantic release pre
-            code: npm run semantic-release -- pre
+    - script:
+        name: semantic release pre
+        code: npm run semantic-release -- pre
 
-        - turistforeningen/npm-publish
+    - turistforeningen/npm-publish
 
-        - script:
-            name: semantic release post
-            code: npm run semantic-release -- post
+    - script:
+        name: semantic release post
+        code: npm run semantic-release -- post
 
-    after-steps:
-        - turistforeningen/slack-notifier:
-            url: $SLACK_WEBHOOK_URL
+    - script:
+        name: greenkeeper postpublish
+        code: npm run greenkeeper-postpublish
+
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL

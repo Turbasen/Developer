@@ -3,16 +3,26 @@
   "version": null,
   "description": "Developer site for Nasjonal Turbase",
   "main": "index.js",
+  "files": [
+    "apps",
+    "lib",
+    "index.js",
+    "static",
+    "views",
+    "theme.config"
+  ],
   "scripts": {
-    "start": "supervisor -w index.js,apps,lib -e js index.js",
+    "codacy-coverage": "codacy-coverage",
+    "cover": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- -r test/support/env -R spec test/**/",
+    "greenkeeper-postpublish": "greenkeeper-postpublish",
     "grunt": "grunt",
     "grunt:watch": "grunt watch",
     "lint": "eslint test/ lib/ apps/ index.js",
-    "test": "mocha -r test/support/env -R tap -b --check-leaks test/**/",
-    "test:watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/**/",
-    "cover": "istanbul cover --report lcovonly ./node_modules/.bin/_mocha -- -r test/support/env -R spec test/**/",
+    "nsp": "nsp check",
     "semantic-release": "semantic-release",
-    "codacy-coverage": "codacy-coverage"
+    "start": "supervisor -w index.js,apps,lib -e js index.js",
+    "test": "mocha -r test/support/env -R tap -b --check-leaks test/**/",
+    "test:watch": "mocha -r test/support/env -R progress -b --check-leaks -w test/**/"
   },
   "repository": {
     "type": "git",
@@ -34,9 +44,11 @@
     "eslint": "^3.0.1",
     "eslint-config-airbnb-base": "^4.0.0",
     "eslint-plugin-import": "^1.10.2",
+    "greenkeeper-postpublish": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
+    "nsp": "^2.5.0",
     "semantic-release": "^4.3.5",
     "supertest": "^1.2.0",
     "supervisor": "^0.10.0"
