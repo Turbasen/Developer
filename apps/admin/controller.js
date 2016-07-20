@@ -110,7 +110,7 @@ route.post('/limits/:userId/:appId', (req, res, next) => {
       return res.redirect(303, '/admin/limits');
     }
 
-    user.save().catch(next).then(() => res.redirect(303, '/admin/limits'));
+    return user.save().catch(next).then(() => res.redirect(303, '/admin/limits'));
   });
 });
 
@@ -182,7 +182,7 @@ route.post('/requests/:userId/:appId', (req, res, next) => {
       return res.redirect(303, '/admin/requests');
     }
 
-    user.save().catch(next).then(() => res.redirect(303, '/admin/requests'));
+    return user.save().catch(next).then(() => res.redirect(303, '/admin/requests'));
   });
 });
 
