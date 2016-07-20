@@ -40,6 +40,7 @@ app.use('/profile', require('./apps/profile/controller'));
 app.use('/app', require('./apps/app/controller'));
 app.use('/admin', require('./apps/admin/controller'));
 app.use('/email', require('./apps/email/controller'));
+app.use('/slack', require('./apps/slack/controller'));
 
 app.get('/', (req, res) => { res.redirect('/app'); });
 app.get('*', (req, res) => { res.redirect('/app'); });

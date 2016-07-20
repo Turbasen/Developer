@@ -12,6 +12,7 @@ module.exports = function authMiddleware(req, res, next) {
       && !/^\/favicon.ico/.test(req.originalUrl)
       && !/^\/login/.test(req.originalUrl)
       && !/^\/email/.test(req.originalUrl)
+      && !/^\/slack/.test(req.originalUrl)
   ) {
     return res.redirect('/login');
   }
