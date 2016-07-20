@@ -4,7 +4,7 @@
 const router = require('express').Router;
 const each = require('async-each-map');
 
-const app = router();
+const route = router();
 const ApiUser = require('../app/model').ApiUser;
 
 const filters = require('./filters');
@@ -16,7 +16,7 @@ if (module.parent.exports.nunjucks) {
   });
 }
 
-app.use('/', (req, res, next) => {
+route.use('/', (req, res, next) => {
   if (!req.session.auth.isAdmin) {
     return res.redirect('/');
   }
@@ -24,16 +24,16 @@ app.use('/', (req, res, next) => {
   return next();
 });
 
-app.get('/', (req, res) => res.redirect('/admin/users'));
+route.get('/', (req, res) => res.redirect('/admin/users'));
 
-app.get('/users', (req, res, next) => {
+route.get('/users', (req, res, next) => {
   ApiUser.find().limit(100).sort({ updated: -1 }).exec((err, apps) => {
     if (err) { return next(err); }
     return res.render('admin/users.html', { req, apps });
   });
 });
 
-app.get('/limits', (req, res, next) => {
+route.get('/limits', (req, res, next) => {
   const error = req.session.message;
   delete req.session.message;
 
@@ -54,7 +54,7 @@ app.get('/limits', (req, res, next) => {
   });
 });
 
-app.post('/limits/:userId/:appId', (req, res, next) => {
+route.post('/limits/:userId/:appId', (req, res, next) => {
   ApiUser.findOne({ _id: req.params.userId }, (err, user) => {
     if (err) { return next(err); }
 
@@ -114,7 +114,7 @@ app.post('/limits/:userId/:appId', (req, res, next) => {
   });
 });
 
-app.get('/requests', (req, res, next) => {
+route.get('/requests', (req, res, next) => {
   const error = req.session.message;
   delete req.session.message;
 
@@ -133,7 +133,7 @@ app.get('/requests', (req, res, next) => {
   });
 });
 
-app.post('/requests/:userId/:appId', (req, res, next) => {
+route.post('/requests/:userId/:appId', (req, res, next) => {
   ApiUser.findOne({ _id: req.params.userId }, (err, user) => {
     if (err) { return next(err); }
 
@@ -186,14 +186,14 @@ app.post('/requests/:userId/:appId', (req, res, next) => {
   });
 });
 
-app.get('/email', (req, res) => {
+route.get('/email', (req, res) => {
   const error = req.session.message;
 
   delete req.session.message;
   res.render('admin/email.html', { req });
 });
 
-app.post('/email', (req, res, next) => {
+route.post('/email', (req, res, next) => {
   const from = req.body.from;
   const subject = req.body.subject;
   const template = req.body.content;
@@ -303,6 +303,6 @@ app.post('/email', (req, res, next) => {
   }
 });
 
-app.get('*', (req, res) => res.redirect('/admin'));
+route.get('*', (req, res) => res.redirect('/admin'));
 
-module.exports = app;
+module.exports = route;
