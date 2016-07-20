@@ -1,0 +1,68 @@
+{% set page = 'requests' %}
+{% set cclass = 'requests' %}
+{% extends "admin/layout.html" %}
+
+{% block title %}Nye apps - {{ super() }}{% endblock %}
+
+{% block content %}
+<h2 class="ui header">
+  <i class="certificate icon"></i>
+  <div class="content">
+    Nye apps
+    <div class="sub header">Nye applikasjoner til godkjenning</div>
+  </div>
+</h2>
+
+{% if not users.length %}
+  <div class="ui info message">
+    <p>Det er ingen nye applikasjoner til godkjenning. Godt jobba!</p>
+  </div>
+{% endif %}
+
+<div class="ui three cards">
+  {% for user in users %}
+    {% for app in user.apps %}
+      {% if not app.approved and not app.rejection %}
+        <form class="ui form card" method="post"
+          action="/admin/requests/{{ user._id }}/{{ app._id }}">
+
+          <div class="content">
+            <img
+              class="right floated mini ui image"
+              src="{{ user.owner[0].avatarUrl|d("/static/images/image.png") }}">
+
+            <div class="header">{{ app.name }}</div>
+            <div class="meta">{{ user.provider }}</div>
+            <div class="description">
+              <div class="field">
+                <label>Beskrivelse</label>
+                <p>{{ app.desc }}</p>
+              </div>
+
+              <div class="field">
+                <label>Melding</label>
+                <textarea name="message" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="ui two buttons">
+              <button
+                type="submit"
+                name="approve"
+                value="true"
+                class="ui basic green button">Godkjenn</button>
+
+              <button
+                type="submit"
+                name="reject"
+                value="true"
+                class="ui basic red button">Avslå</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</div>
+{% endblock %}

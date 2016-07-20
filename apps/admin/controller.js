@@ -114,6 +114,78 @@ app.post('/limits/:userId/:appId', (req, res, next) => {
   });
 });
 
+app.get('/requests', (req, res, next) => {
+  const error = req.session.message;
+  delete req.session.message;
+
+  const query = {
+    apps: {
+      $elemMatch: {
+        approved: false,
+        rejection: { $exists: false },
+      },
+    },
+  };
+
+  ApiUser.find(query).exec((err, users) => {
+    if (err) { return next(err); }
+    return res.render('admin/requests.html', { req, error, users });
+  });
+});
+
+app.post('/requests/:userId/:appId', (req, res, next) => {
+  ApiUser.findOne({ _id: req.params.userId }, (err, user) => {
+    if (err) { return next(err); }
+
+    const app = user.apps.id(req.params.appId);
+
+    // Unknown application
+    if (!app) {
+      req.session.message = {
+        title: 'Ukjent app',
+        message: `App ${req.params.appId} ble ikke funnet`,
+      };
+
+      return res.redirect(303, '/admin/requests');
+    }
+
+    // Approve application
+    if (req.body.approve === 'true') {
+      app.set('active', true);
+      app.set('approved', true);
+
+      req.session.message = {
+        class: 'positive',
+        title: 'Ny app godkjent',
+        message: `Applikasjonen "${app.name}" ble godkjent.`,
+      };
+
+    // Reject application
+    } else if (req.body.reject === 'true') {
+      app.set('active', false);
+      app.set('approved', false);
+      app.set('rejection', req.body.message || 'Ingen melding oppgitt.');
+
+      req.session.message = {
+        class: 'positive',
+        title: 'Ny app avslått',
+        message: `Applikasjonen "${app.name}" ble avslått.`,
+      };
+
+    // Unknown action
+    } else {
+      req.session.message = {
+        title: 'Ukjent valg',
+        message: 'Operasjonen ble ikke gjennkjennt som et gyldig valg.',
+      };
+
+      return res.redirect(303, '/admin/requests');
+    }
+
+    user.save().catch(next).then(() => res.redirect(303, '/admin/requests'));
+  });
+});
+
 app.get('/email', (req, res) => {
   const error = req.session.message;
 

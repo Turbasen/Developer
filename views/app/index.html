@@ -34,7 +34,7 @@
           <div class="ui attached message">
             <div class="header">{{ app.name }}</div>
           </div>
-          {% if app.active or not app.approved %}
+          {% if app.active or (not app.approved and not app.rejection) %}
           <form class="ui form attached fluid segment" method="post" action="/app/{{ app._id }}">
             <div class="two fields">
               <div class="field">
@@ -96,7 +96,12 @@
             {% endif %}
           </form>
           {% endif %}
-          {% if not app.approved %}
+          {% if app.rejection %}
+            <div class="ui bottom attached error message">
+              <i class="icon warning"></i>
+              Denne applikasjonen ble avvist. {{ app.rejection }}
+            </div>
+          {% elif not app.approved %}
             <div class="ui bottom attached info message">
               <i class="icon wait"></i>
               Denne applikasjonen venter på godkjenning.

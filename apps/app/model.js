@@ -11,6 +11,7 @@ const moment = require('moment');
 const appSchema = new Schema({
   active: { type: Boolean, default: true },
   approved: { type: Boolean, default: true },
+  rejection: { type: String },
   name: { type: String, required: 'App navn kan ikke være tomt' },
   url: String,
   desc: { type: String, required: 'App beskrivelse kan ikke være tomt' },
