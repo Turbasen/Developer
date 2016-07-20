@@ -33,6 +33,87 @@ app.get('/users', (req, res, next) => {
   });
 });
 
+app.get('/limits', (req, res, next) => {
+  const error = req.session.message;
+  delete req.session.message;
+
+  const query = {
+    apps: {
+      $elemMatch: {
+        $or: [
+          { prodRequest: { $exists: true } },
+          { devRequest: { $exists: true } },
+        ],
+      },
+    },
+  };
+
+  ApiUser.find(query).exec((err, users) => {
+    if (err) { return next(err); }
+    return res.render('admin/limits.html', { req, error, users });
+  });
+});
+
+app.post('/limits/:userId/:appId', (req, res, next) => {
+  ApiUser.findOne({ _id: req.params.userId }, (err, user) => {
+    if (err) { return next(err); }
+
+    const app = user.apps.id(req.params.appId);
+
+    // Unknown application
+    if (!app) {
+      req.session.message = {
+        title: 'Ukjent app',
+        message: `App ${req.params.appId} ble ikke funnet`,
+      };
+
+      return res.redirect(303, '/admin/limits');
+    }
+
+    // Approve new limits
+    if (req.body.approve === 'true') {
+      if (req.body.limit_prod) {
+        app.set('limit.prod', parseInt(req.body.limit_prod, 10));
+      }
+
+      if (req.body.limit_dev) {
+        app.set('limit.dev', parseInt(req.body.limit_dev, 10));
+      }
+
+      app.set('limit.prodRequest', undefined);
+      app.set('limit.devRequest', undefined);
+
+      req.session.message = {
+        class: 'positive',
+        title: 'Ny grense godkjent',
+        message: `Ny grense for "${app.name}" er godkjent.`,
+      };
+
+    // Reject new limits
+    } else if (req.body.reject === 'true') {
+      app.set('limit.prodRequest', undefined);
+      app.set('limit.devRequest', undefined);
+
+      req.session.message = {
+        class: 'positive',
+        title: 'Ny grense avslått',
+        message: `Ny grense for "${app.name}" er avslått.`,
+      };
+
+    // Unknown action
+    } else {
+      req.session.message = {
+        title: 'Ukjent valg',
+        message: 'Operasjonen ble ikke gjennkjennt som et gyldig valg.',
+      };
+
+      return res.redirect(303, '/admin/limits');
+    }
+
+    user.save().catch(next).then(() => res.redirect(303, '/admin/limits'));
+  });
+});
+
 app.get('/email', (req, res) => {
   const error = req.session.message;
 
