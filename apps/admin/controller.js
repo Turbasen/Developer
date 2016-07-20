@@ -41,8 +41,8 @@ route.get('/limits', (req, res, next) => {
     apps: {
       $elemMatch: {
         $or: [
-          { prodRequest: { $exists: true } },
-          { devRequest: { $exists: true } },
+          { 'limit.prodRequest': { $exists: true } },
+          { 'limit.devRequest': { $exists: true } },
         ],
       },
     },
