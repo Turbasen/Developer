@@ -97,8 +97,18 @@ app.get('/login/github/callback', (req, res, next) => {
             _id: 'TOTOAL',
             active: { $sum: { $cond: ['$apps.active', 1, 0] } },
             inactive: { $sum: { $cond: ['$apps.active', 0, 1] } },
-            pending: { $sum: { $cond: ['$apps.approved', 0, 1] } },
-            request: { $sum: { $cond: ['$apps.limit.rodRequest', 1, 0] } },
+            pending: { $sum: { $cond: [{
+              $and: [
+                { $eq: ['$apps.approved', false] },
+                { $not: ['$apps.rejection'] },
+              ],
+            }, 1, 0] } },
+            request: { $sum: { $cond: [{
+              $or: [
+                '$apps.limit.prodRequest',
+                '$apps.limit.devRequest',
+              ],
+            }, 1, 0] } },
           } },
         ], (aggregateErr, result) => {
           if (aggregateErr) { return next(aggregateErr); }
