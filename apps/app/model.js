@@ -60,7 +60,7 @@ appSchema.methods.slackAttachment = function slackAttachment() {
 };
 
 appSchema.methods.slackRequestApproval = function slackRequestApproval() {
-  const text = 'Denne applikasjonen krever godkjenning før den blir aktiv';
+  const text = 'Denne applikasjonen krever admin godkjenning før den blir aktiv';
   const link = 'https://developer.nasjonalturbase.no/admin/requests';
 
   return {
@@ -89,7 +89,7 @@ appSchema.methods.slackLimitApproval = function slackLimitApproval() {
   const prod = this.limit.prodRequest || this.limit.prod;
   const dev = this.limit.devRequest || this.limit.dev;
 
-  const text = `Ny grense ${prod} (prod) og ${dev} (dev) krever godkjenning`;
+  const text = `Ny grense ${prod} (prod) og ${dev} (dev) krever admin godkjenning`;
   const link = 'https://developer.nasjonalturbase.no/admin/limits';
 
   return {

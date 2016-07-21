@@ -52,8 +52,8 @@ describe.only('appSchema', () => {
       assert.deepEqual(api.apps[0].slackRequestApproval(), {
         title: 'Godkjenning kreves for Foo App',
         title_link: 'https://developer.nasjonalturbase.no/admin/requests',
-        text: 'Denne applikasjonen krever godkjenning før den blir aktiv',
-        fallback: 'Denne applikasjonen krever godkjenning før den blir aktiv: https://developer.nasjonalturbase.no/admin/requests',
+        text: 'Denne applikasjonen krever admin godkjenning før den blir aktiv',
+        fallback: 'Denne applikasjonen krever admin godkjenning før den blir aktiv: https://developer.nasjonalturbase.no/admin/requests',
         color: '#3AA3E3',
         callback_id: 'requests/000000000000000000000000/000000000000000000000001',
         actions: [{
@@ -77,8 +77,8 @@ describe.only('appSchema', () => {
       assert.deepEqual(api.apps[0].slackLimitApproval(), {
         title: 'Godkjenning kreves for Foo App',
         title_link: 'https://developer.nasjonalturbase.no/admin/limits',
-        text: 'Ny grense 500 (prod) og 500 (dev) krever godkjenning',
-        fallback: 'Ny grense 500 (prod) og 500 (dev) krever godkjenning: https://developer.nasjonalturbase.no/admin/limits',
+        text: 'Ny grense 500 (prod) og 500 (dev) krever admin godkjenning',
+        fallback: 'Ny grense 500 (prod) og 500 (dev) krever admin godkjenning: https://developer.nasjonalturbase.no/admin/limits',
         color: '#3AA3E3',
         callback_id: 'limits/000000000000000000000000/000000000000000000000001',
         actions: [{
