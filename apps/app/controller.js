@@ -74,7 +74,10 @@ route.post('/new', (req, res, next) => {
     desc: req.body.desc,
     active: req.api.apps.length < APPS_FREE,
     approved: req.api.apps.length < APPS_FREE,
-  }));
+  });
+
+  // Add the new application to the user
+  req.api.apps.push(app);
 
   const error = req.api.validateSync();
   if (error) {
@@ -90,13 +93,26 @@ route.post('/new', (req, res, next) => {
   req.api.save(err => {
     if (err) { next(err); return; }
 
-    if (req.api.apps.length > APPS_FREE) {
+    // Construct Slack notification message
+    const message = {
+      text: 'En ny applikasjon har blitt registrert :tada:',
+      attachments: [app.slackAttachment()],
+    };
+
+    // Warn about pending app approval.
+    if (!app.approved) {
       req.session.message = {
         class: 'info',
         title: 'Venter på godkjenning',
         message: 'Din applikasjon venter på godkjenning.',
       };
+
       res.set('x-app-message', 'pending');
+
+      // Add interactive Slack buttons for easy approval
+      message.attachments.push(app.slackRequestApproval());
+
+    // Inform about app created.
     } else {
       req.session.message = {
         class: 'positive',
@@ -104,6 +120,9 @@ route.post('/new', (req, res, next) => {
         message: 'Din applikasjon ble suksessfullt opprettet.',
       };
     }
+
+    // Post message to Slack
+    slackr(message);
 
     res.set('x-app-status', 'success');
     res.redirect(303, '/app');
