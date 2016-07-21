@@ -1,10 +1,10 @@
 /* eslint no-unused-vars: 0 */
 'use strict';
 
-const router = require('express').Router;
 const each = require('async-each-map');
+const Router = require('express').Router;
+const route = new Router();
 
-const route = router();
 const ApiUser = require('../app/model').ApiUser;
 
 const filters = require('./filters');

@@ -1,8 +1,9 @@
 /* eslint no-console: 0*/
 'use strict';
 
-const router = require('express').Router;
-const app = router();
+const Router = require('express').Router;
+const route = new Router();
+
 const ApiUser = require('../app/model').ApiUser;
 
 const github = require('../../lib/github');
@@ -19,7 +20,7 @@ const oauth2 = new OAuth2(
 const qs = require('querystring');
 const admins = new Set(process.env.APP_ADMINS.split(','));
 
-app.get('/login', (req, res) => {
+route.get('/login', (req, res) => {
   let error;
 
   if (req.query.error) {
@@ -32,13 +33,13 @@ app.get('/login', (req, res) => {
   res.render('login.html', { req, error });
 });
 
-app.get('/logout', (req, res) => {
+route.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/');
   });
 });
 
-app.get('/login/github', (req, res) => {
+route.get('/login/github', (req, res) => {
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 
   const authURL = oauth2.getAuthorizeUrl({
@@ -50,7 +51,7 @@ app.get('/login/github', (req, res) => {
   res.redirect(authURL);
 });
 
-app.get('/login/github/callback', (req, res, next) => {
+route.get('/login/github/callback', (req, res, next) => {
   const originalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
 
   // @TODO validate req.query.state ?
@@ -120,4 +121,4 @@ app.get('/login/github/callback', (req, res, next) => {
     });
 });
 
-module.exports = app;
+module.exports = route;

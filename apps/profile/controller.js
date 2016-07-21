@@ -1,15 +1,15 @@
 /* eslint no-unused-vars: 0 */
 'use strict';
 
-const router = require('express').Router;
+const Router = require('express').Router;
+const route = new Router();
 
-const app = router();
 const ApiUser = require('../app/model').ApiUser;
 
 const NTB_TOS_VERSION = process.env.NTB_TOS_VERSION || 1;
 
 // get api user for authenticated user
-app.use('/', (req, res, next) => {
+router.use('/', (req, res, next) => {
   const query = {
     'owner.userId': req.session.auth.userId,
   };
@@ -29,7 +29,7 @@ app.use('/', (req, res, next) => {
   });
 });
 
-app.get('/', (req, res, next) => {
+router.get('/', (req, res, next) => {
   const user = req.session.auth;
   const error = req.session.message;
 
@@ -38,7 +38,7 @@ app.get('/', (req, res, next) => {
   return;
 });
 
-app.post('/link', (req, res, next) => {
+router.post('/link', (req, res, next) => {
   // Existing users can not link their API-key
   if (!req.api.isNew) {
     req.session.message = {
@@ -112,7 +112,7 @@ app.post('/link', (req, res, next) => {
   return;
 });
 
-app.post('/', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const user = req.session.auth;
 
   // New User
@@ -166,4 +166,4 @@ app.post('/', (req, res, next) => {
   return;
 });
 
-module.exports = app;
+module.exports = router;

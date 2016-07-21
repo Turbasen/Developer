@@ -2,11 +2,10 @@
 'use strict';
 
 const HttpError = require('@starefossen/node-http-error');
-const router = require('express').Router;
+const Router = require('express').Router;
+const route = new Router();
 
-const app = router();
-
-app.get('/oauth', (req, res, next) => {
+route.get('/oauth', (req, res, next) => {
   if (!req.query.code) {
     return next(new HttpError('Missing "code" query parameter', 400));
   }
@@ -19,6 +18,6 @@ app.get('/oauth', (req, res, next) => {
   return res.redirect(`${base}?code=${code}&client_id=${client}&client_secret=${secret}`);
 });
 
-app.get('*', (req, res) => res.redirect('/'));
+route.get('*', (req, res) => res.redirect('/'));
 
-module.exports = app;
+module.exports = route;

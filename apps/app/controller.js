@@ -1,10 +1,10 @@
 'use strict';
 
-const router = require('express').Router;
+const slackr = require('slackr');
+const Router = require('express').Router;
+const route = new Router();
 
-const app = router();
 const ApiUser = require('./model').ApiUser;
-
 const filters = require('./filters');
 
 const APPS_FREE = process.env.APPS_FREE || 1;
@@ -16,7 +16,7 @@ if (module.parent.exports.nunjucks) {
 }
 
 // get api user for authenticated user
-app.use('/', (req, res, next) => {
+route.use('/', (req, res, next) => {
   const query = {
     'owner.userId': req.session.auth.userId,
   };
@@ -29,7 +29,7 @@ app.use('/', (req, res, next) => {
 });
 
 // redirect user to profile
-app.use('/', (req, res, next) => {
+route.use('/', (req, res, next) => {
   if (!req.api || req.api.validateSync()) {
     return res.redirect('/profile');
   }
@@ -37,7 +37,7 @@ app.use('/', (req, res, next) => {
   return next();
 });
 
-app.use('/', (req, res, next) => {
+route.use('/', (req, res, next) => {
   if (req.api.apps.length === 0 && /^\/app\/?$/.test(req.originalUrl)) {
     return res.redirect('/app/new');
   }
@@ -45,14 +45,14 @@ app.use('/', (req, res, next) => {
   return next();
 });
 
-app.get('/', (req, res) => {
+route.get('/', (req, res) => {
   const error = req.session.message;
   delete req.session.message;
 
   res.render('app/index.html', { req, keys: req.api.apps, error });
 });
 
-app.get('/new', (req, res) => {
+route.get('/new', (req, res) => {
   let error = req.session.message;
   delete req.session.message;
 
@@ -67,8 +67,8 @@ app.get('/new', (req, res) => {
   res.render('app/new.html', { req, error });
 });
 
-app.post('/new', (req, res, next) => {
-  req.api.apps.push(req.api.apps.create({
+route.post('/new', (req, res, next) => {
+  const app = req.api.apps.create({
     name: req.body.name,
     url: req.body.url,
     desc: req.body.desc,
@@ -110,7 +110,7 @@ app.post('/new', (req, res, next) => {
   });
 });
 
-app.param('id', (req, res, next, id) => {
+route.param('id', (req, res, next, id) => {
   req.app = req.api.apps.id(id);
 
   if (!req.app) {
@@ -129,7 +129,7 @@ app.param('id', (req, res, next, id) => {
   next();
 });
 
-app.post('/:id', (req, res, next) => {
+route.post('/:id', (req, res, next) => {
   req.app.name = req.body.name;
   req.app.url = req.body.url;
   req.app.desc = req.body.desc;
@@ -178,7 +178,7 @@ app.post('/:id', (req, res, next) => {
   return;
 });
 
-app.post('/:id/disable', (req, res, next) => {
+route.post('/:id/disable', (req, res, next) => {
   req.app.active = false;
   req.api.save(saveErr => {
     if (saveErr) { next(saveErr); return; }
@@ -197,6 +197,6 @@ app.post('/:id/disable', (req, res, next) => {
   });
 });
 
-app.get('*', (req, res) => res.redirect('/app'));
+route.get('*', (req, res) => res.redirect('/app'));
 
-module.exports = app;
+module.exports = route;
