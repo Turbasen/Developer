@@ -13,7 +13,13 @@ const appSchema = new Schema({
   approved: { type: Boolean, default: true },
   rejection: { type: String },
   name: { type: String, required: 'App navn kan ikke være tomt' },
-  url: String,
+  url: {
+    type: String,
+    validate: {
+      validator: v => /^https?:\/\//.test(v),
+      message: 'URL må være en gyldig addresse',
+    },
+  },
   desc: { type: String, required: 'App beskrivelse kan ikke være tomt' },
   key: {
     prod: { type: String, default: keygen },
