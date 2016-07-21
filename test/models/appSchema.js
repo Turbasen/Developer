@@ -42,7 +42,7 @@ describe.only('appSchema', () => {
           title: 'Telefon',
           value: 'Ukjent',
           short: true,
-        }]
+        }],
       });
     });
   });
@@ -56,7 +56,7 @@ describe.only('appSchema', () => {
         fallback: 'Denne applikasjonen krever godkjenning før den blir aktiv: https://developer.nasjonalturbase.no/admin/requests',
         color: '#3AA3E3',
         callback_id: 'requests/000000000000000000000000/000000000000000000000001',
-        'actions': [{
+        actions: [{
           name: 'approve',
           text: 'Godkjenn',
           type: 'bytton',
@@ -81,7 +81,7 @@ describe.only('appSchema', () => {
         fallback: 'Ny grense 500 (prod) og 500 (dev) krever godkjenning: https://developer.nasjonalturbase.no/admin/limits',
         color: '#3AA3E3',
         callback_id: 'limits/000000000000000000000000/000000000000000000000001',
-        'actions': [{
+        actions: [{
           name: 'approve',
           text: 'Godkjenn',
           type: 'bytton',

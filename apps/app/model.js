@@ -55,8 +55,8 @@ appSchema.methods.slackAttachment = function slackAttachment() {
       title: 'Telefon',
       value: this.__parent.contact.phone || 'Ukjent',
       short: true,
-    }]
-  }
+    }],
+  };
 };
 
 appSchema.methods.slackRequestApproval = function slackRequestApproval() {
@@ -66,14 +66,14 @@ appSchema.methods.slackRequestApproval = function slackRequestApproval() {
   return {
     title: `Godkjenning kreves for ${this.name}`,
     title_link: link,
-    text: text,
+    text,
     fallback: `${text}: ${link}`,
     color: '#3AA3E3',
     callback_id: `requests/${this.__parent._id}/${this._id}`,
-    'actions': [{
+    actions: [{
       name: 'approve',
       text: 'Godkjenn',
-      type: 'bytton',
+      type: 'button',
       style: 'primary',
       value: 'true',
     }, {
@@ -95,11 +95,11 @@ appSchema.methods.slackLimitApproval = function slackLimitApproval() {
   return {
     title: `Godkjenning kreves for ${this.name}`,
     title_link: link,
-    text: text,
+    text,
     fallback: `${text}: ${link}`,
     color: '#3AA3E3',
     callback_id: `limits/${this.__parent._id}/${this._id}`,
-    'actions': [{
+    actions: [{
       name: 'approve',
       text: 'Godkjenn',
       type: 'bytton',
