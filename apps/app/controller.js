@@ -100,7 +100,7 @@ route.post('/new', (req, res, next) => {
     } else {
       req.session.message = {
         class: 'positive',
-        title: 'App oppdatert',
+        title: 'App opprettet',
         message: 'Din applikasjon ble suksessfullt opprettet.',
       };
     }
