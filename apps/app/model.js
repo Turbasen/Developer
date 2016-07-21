@@ -37,6 +37,83 @@ appSchema.virtual('slugg').get(function appSchemaVirtualSlugg() {
   return this.name.toLowerCase().replace(/[^a-zaæå0-9]/g, '-');
 });
 
+appSchema.methods.slackAttachment = function slackAttachment() {
+  const author = `${this.__parent.contact.name} (${this.__parent.provider})`;
+
+  return {
+    author_name: author,
+    title: this.name,
+    title_link: this.url,
+    text: this.desc,
+    fallback: `${this.name} av ${author}. ${this.desc} ${this.url || ''}`,
+    color: '#2ab27b',
+    fields: [{
+      title: 'Epost',
+      value: this.__parent.contact.email || 'Ukjent',
+      short: true,
+    }, {
+      title: 'Telefon',
+      value: this.__parent.contact.phone || 'Ukjent',
+      short: true,
+    }]
+  }
+};
+
+appSchema.methods.slackRequestApproval = function slackRequestApproval() {
+  const text = 'Denne applikasjonen krever godkjenning før den blir aktiv';
+  const link = 'https://developer.nasjonalturbase.no/admin/requests';
+
+  return {
+    title: `Godkjenning kreves for ${this.name}`,
+    title_link: link,
+    text: text,
+    fallback: `${text}: ${link}`,
+    color: '#3AA3E3',
+    callback_id: `requests/${this.__parent._id}/${this._id}`,
+    'actions': [{
+      name: 'approve',
+      text: 'Godkjenn',
+      type: 'bytton',
+      style: 'primary',
+      value: 'true',
+    }, {
+      name: 'approve',
+      text: 'Avvis',
+      type: 'button',
+      value: 'false',
+    }],
+  };
+};
+
+appSchema.methods.slackLimitApproval = function slackLimitApproval() {
+  const prod = this.limit.prodRequest || this.limit.prod;
+  const dev = this.limit.devRequest || this.limit.dev;
+
+  const text = `Ny grense ${prod} (prod) og ${dev} (dev) krever godkjenning`;
+  const link = 'https://developer.nasjonalturbase.no/admin/limits';
+
+  return {
+    title: `Godkjenning kreves for ${this.name}`,
+    title_link: link,
+    text: text,
+    fallback: `${text}: ${link}`,
+    color: '#3AA3E3',
+    callback_id: `limits/${this.__parent._id}/${this._id}`,
+    'actions': [{
+      name: 'approve',
+      text: 'Godkjenn',
+      type: 'bytton',
+      style: 'primary',
+      value: 'true',
+    }, {
+      name: 'approve',
+      text: 'Avvis',
+      type: 'button',
+      value: 'false',
+    }],
+  };
+};
+
 const ownerSchema = new Schema({
   userId: Number,
   userName: String,
