@@ -59,7 +59,7 @@ describe('appSchema', () => {
         actions: [{
           name: 'approve',
           text: 'Godkjenn',
-          type: 'bytton',
+          type: 'button',
           style: 'primary',
           value: 'true',
         }, {
