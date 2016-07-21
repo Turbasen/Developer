@@ -12,7 +12,7 @@ beforeEach(done => {
   }).catch(done);
 });
 
-describe.only('appSchema', () => {
+describe('appSchema', () => {
   describe('slugg', () => {
     it('returns URL safe slug for simple name', () => {
       const app = api.apps.create({ name: 'My App' });
