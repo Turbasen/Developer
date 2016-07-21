@@ -6,9 +6,9 @@ const route = new Router();
 
 const ApiUser = require('../app/model').ApiUser;
 
-router.get('/', (req, res) => res.redirect('/email/unsubscribe'));
+route.get('/', (req, res) => res.redirect('/email/unsubscribe'));
 
-router.get('/unsubscribe', (req, res, next) => {
+route.get('/unsubscribe', (req, res, next) => {
   if (req.session.auth) {
     res.redirect('/profile');
   } else {
@@ -16,14 +16,14 @@ router.get('/unsubscribe', (req, res, next) => {
   }
 });
 
-router.get('/unsubscribe', (req, res, next) => {
+route.get('/unsubscribe', (req, res, next) => {
   const error = req.session.message;
 
   delete req.session.message;
   res.render('email/unsubscribe.html', { req, error });
 });
 
-router.get('/unsubscribed', (req, res, next) => {
+route.get('/unsubscribed', (req, res, next) => {
   const error = {
     class: 'positive',
     title: 'Avmelding gjennomført',
@@ -33,7 +33,7 @@ router.get('/unsubscribed', (req, res, next) => {
   res.render('email/unsubscribed.html', { req, error });
 });
 
-router.post('/unsubscribe', (req, res, next) => {
+route.post('/unsubscribe', (req, res, next) => {
   if (!req.body.email) {
     req.session.message = {
       title: 'Avmelding feilet',
@@ -57,7 +57,7 @@ router.post('/unsubscribe', (req, res, next) => {
   });
 });
 
-router.get('/unsubscribe/:id', (req, res, next) => {
+route.get('/unsubscribe/:id', (req, res, next) => {
   ApiUser.findOne({ _id: req.params.id }, (findErr, user) => {
     if (findErr) { return res.redirect(303, '/email/unsubscribe'); }
     if (!user) { return res.redirect(303, '/email/unsubscribed'); }
@@ -70,6 +70,6 @@ router.get('/unsubscribe/:id', (req, res, next) => {
   });
 });
 
-router.get('*', (req, res) => res.redirect('/email'));
+route.get('*', (req, res) => res.redirect('/email'));
 
-module.exports = router;
+module.exports = route;

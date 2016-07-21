@@ -9,7 +9,7 @@ const ApiUser = require('../app/model').ApiUser;
 const NTB_TOS_VERSION = process.env.NTB_TOS_VERSION || 1;
 
 // get api user for authenticated user
-router.use('/', (req, res, next) => {
+route.use('/', (req, res, next) => {
   const query = {
     'owner.userId': req.session.auth.userId,
   };
@@ -29,7 +29,7 @@ router.use('/', (req, res, next) => {
   });
 });
 
-router.get('/', (req, res, next) => {
+route.get('/', (req, res, next) => {
   const user = req.session.auth;
   const error = req.session.message;
 
@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
   return;
 });
 
-router.post('/link', (req, res, next) => {
+route.post('/link', (req, res, next) => {
   // Existing users can not link their API-key
   if (!req.api.isNew) {
     req.session.message = {
@@ -112,7 +112,7 @@ router.post('/link', (req, res, next) => {
   return;
 });
 
-router.post('/', (req, res, next) => {
+route.post('/', (req, res, next) => {
   const user = req.session.auth;
 
   // New User
@@ -166,4 +166,4 @@ router.post('/', (req, res, next) => {
   return;
 });
 
-module.exports = router;
+module.exports = route;
