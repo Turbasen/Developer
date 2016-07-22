@@ -100,7 +100,7 @@ route.post('/new', (req, res, next) => {
     };
 
     // Warn about pending app approval.
-    if (!app.approved) {
+    if (app.isPending) {
       req.session.message = {
         class: 'info',
         title: 'Venter på godkjenning',

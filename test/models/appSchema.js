@@ -13,6 +13,45 @@ beforeEach(done => {
 });
 
 describe('appSchema', () => {
+  describe('isActive()', () => {
+    [true, false].forEach(active => {
+      [true, false].forEach(approved => {
+        const ret = active && approved;
+
+        it(`returns ${ret} when active=${active} and approved=${approved}`, () => {
+          const app = api.apps.create({ active, approved });
+          assert.equal(app.isActive, ret);
+        });
+      });
+    });
+  });
+
+  describe('isPending()', () => {
+    [true, false].forEach(approved => {
+      [undefined, 'Rejected'].forEach(rejection => {
+        const ret = !approved && !rejection;
+
+        it(`returns ${ret} when approved=${approved} and rejection=${rejection}`, () => {
+          const app = api.apps.create({ approved, rejection });
+          assert.equal(app.isPending, ret);
+        });
+      });
+    });
+  });
+
+  describe('isRejected()', () => {
+    [true, false].forEach(approved => {
+      [undefined, 'Rejected'].forEach(rejection => {
+        const ret = !approved && !!rejection;
+
+        it(`returns ${ret} when approved=${approved} and rejection=${rejection}`, () => {
+          const app = api.apps.create({ approved, rejection });
+          assert.equal(app.isRejected, ret);
+        });
+      });
+    });
+  });
+
   describe('slugg', () => {
     it('returns URL safe slug for simple name', () => {
       const app = api.apps.create({ name: 'My App' });

@@ -33,6 +33,18 @@ const appSchema = new Schema({
   },
 });
 
+appSchema.virtual('isActive').get(function appSchemaIsActive() {
+  return !!this.active && !!this.approved;
+});
+
+appSchema.virtual('isPending').get(function appSchemaIsPending() {
+  return !this.approved && !this.rejection;
+});
+
+appSchema.virtual('isRejected').get(function appSchemaIsRejected() {
+  return !this.approved && !!this.rejection;
+});
+
 appSchema.virtual('slugg').get(function appSchemaVirtualSlugg() {
   return this.name.toLowerCase().replace(/[^a-zaæå0-9]/g, '-');
 });
