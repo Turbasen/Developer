@@ -70,7 +70,7 @@ route.get('/new', (req, res) => {
 route.post('/new', (req, res, next) => {
   const app = req.api.apps.create({
     name: req.body.name,
-    url: req.body.url,
+    url: req.body.url || undefined,
     desc: req.body.desc,
     active: req.api.apps.length < APPS_FREE,
     approved: req.api.apps.length < APPS_FREE,
@@ -149,9 +149,9 @@ route.param('id', (req, res, next, id) => {
 });
 
 route.post('/:id', (req, res, next) => {
-  req.app.name = req.body.name;
-  req.app.url = req.body.url;
-  req.app.desc = req.body.desc;
+  req.app.set('name', req.body.name);
+  req.app.set('url', req.body.url || undefined);
+  req.app.set('desc', req.body.desc);
 
   // Prod rate-limit change request
   if (parseInt(req.body.limit_prod, 10) !== req.app.limit.prod) {

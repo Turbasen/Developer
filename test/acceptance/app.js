@@ -83,7 +83,7 @@ describe('POST /app/:id', () => {
       .expect('x-app-message', 'app_not_found', done);
   });
 
-  it.skip('returns error for non-owner app id');
+  it('returns error for non-owner app id');
 
   it('returns error for missing app name', done => {
     delete data.name;
@@ -145,6 +145,8 @@ describe('POST /app/:id', () => {
         });
       });
   });
+
+  it('does not save empty app url');
 
   it('saves new rate limits as request', done => {
     data.limit_prod = 111;
@@ -211,6 +213,8 @@ describe('GET /app/new', () => {
       .expect(200)
       .expect(/Registrer ny applikasjon/, done);
   });
+
+  it('does not save empty app url');
 
   it('warns about app approval limit', done => {
     req.get(url)
