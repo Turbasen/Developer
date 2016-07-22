@@ -18,6 +18,15 @@ route.get('/oauth', (req, res, next) => {
   return res.redirect(`${base}?code=${code}&client_id=${client}&client_secret=${secret}`);
 });
 
+route.use('/action', (req, res, next) => {
+  next();
+});
+
+route.post('/action', (req, res, next) => {
+  console.log(req.body); // eslint-disable-line
+  res.json({ text: 'Work in progress :shipit:' });
+});
+
 route.get('*', (req, res) => res.redirect('/'));
 
 module.exports = route;
