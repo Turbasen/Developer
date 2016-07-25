@@ -2,10 +2,11 @@
 
 const slackr = require('slackr');
 const Router = require('express').Router;
-const route = new Router();
 
 const ApiUser = require('./model').ApiUser;
 const filters = require('./filters');
+
+const route = new Router();
 
 const APPS_FREE = process.env.APPS_FREE || 1;
 

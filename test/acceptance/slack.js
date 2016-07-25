@@ -3,6 +3,7 @@
 
 const supertest = require('supertest');
 const req = supertest(require('../../').app);
+const ApiUser = require('../../apps/app/model').ApiUser;
 
 describe('GET /slack', () => {
   const url = '/slack';

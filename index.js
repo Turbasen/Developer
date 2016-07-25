@@ -2,13 +2,15 @@
 'use strict';
 
 const express = require('express');
-const raven = require('raven');
-const statics = express.static;
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
+const raven = require('raven');
+
 const db = require('./lib/db');
 
 const app = module.exports.app = express();
+const statics = express.static;
+
 app.use(raven.middleware.express.requestHandler(process.env.SENTRY_DSN));
 
 app.set('x-powered-by', false);

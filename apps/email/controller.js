@@ -2,9 +2,9 @@
 'use strict';
 
 const Router = require('express').Router;
-const route = new Router();
-
 const ApiUser = require('../app/model').ApiUser;
+
+const route = new Router();
 
 route.get('/', (req, res) => res.redirect('/email/unsubscribe'));
 

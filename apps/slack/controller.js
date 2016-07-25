@@ -3,6 +3,7 @@
 
 const HttpError = require('@starefossen/node-http-error');
 const Router = require('express').Router;
+
 const route = new Router();
 
 route.get('/oauth', (req, res, next) => {

@@ -1,13 +1,14 @@
 /* eslint no-console: 0*/
 'use strict';
 
+const qs = require('querystring');
 const Router = require('express').Router;
-const route = new Router();
-
 const ApiUser = require('../app/model').ApiUser;
 
 const github = require('../../lib/github');
 const OAuth2 = require('oauth').OAuth2;
+
+const route = new Router();
 const oauth2 = new OAuth2(
   process.env.GH_OAUTH_CLIENT,
   process.env.GH_OAUTH_SECRET,
@@ -17,7 +18,6 @@ const oauth2 = new OAuth2(
   null
 );
 
-const qs = require('querystring');
 const admins = new Set(process.env.APP_ADMINS.split(','));
 
 route.get('/login', (req, res) => {

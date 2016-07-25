@@ -2,9 +2,9 @@
 'use strict';
 
 const Router = require('express').Router;
-const route = new Router();
-
 const ApiUser = require('../app/model').ApiUser;
+
+const route = new Router();
 
 const NTB_TOS_VERSION = process.env.NTB_TOS_VERSION || 1;
 

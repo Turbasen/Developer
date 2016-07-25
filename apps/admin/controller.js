@@ -3,12 +3,13 @@
 
 const each = require('async-each-map');
 const Router = require('express').Router;
-const route = new Router();
+
+const sendgrid = require('../../lib/sendgrid');
 
 const ApiUser = require('../app/model').ApiUser;
-
 const filters = require('./filters');
-const sendgrid = require('../../lib/sendgrid');
+
+const route = new Router();
 
 if (module.parent.exports.nunjucks) {
   Object.keys(filters).forEach(filter => {
