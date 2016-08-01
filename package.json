@@ -79,7 +79,7 @@
     "semantic-ui-less": "^2.1.8",
     "sendgrid": "^2.0.0",
     "slackr": "^1.0.0",
-    "trumbowyg": "^2.0.5"
+    "trumbowyg": "^2.1.1"
   },
   "engines": {
     "node": "^4.0.0"
