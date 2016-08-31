@@ -49,6 +49,20 @@ appSchema.virtual('slugg').get(function appSchemaVirtualSlugg() {
   return this.name.toLowerCase().replace(/[^a-zaæå0-9]/g, '-');
 });
 
+appSchema.methods.approve = function appSchemaApprove() {
+  this.active = true;
+  this.approved = true;
+
+  return this.__parent.save({ validateBeforeSave: false });
+};
+
+appSchema.methods.reject = function appSchemaReject() {
+  this.active = true;
+  this.approved = true;
+
+  return this.__parent.save({ validateBeforeSave: false });
+};
+
 appSchema.methods.slackAttachment = function slackAttachment() {
   const author = `${this.__parent.contact.name} (${this.__parent.provider})`;
 

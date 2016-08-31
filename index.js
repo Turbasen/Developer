@@ -14,7 +14,7 @@ const statics = express.static;
 app.use(raven.middleware.express.requestHandler(process.env.SENTRY_DSN));
 
 app.set('x-powered-by', false);
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

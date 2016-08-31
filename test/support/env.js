@@ -11,6 +11,7 @@ process.env.APP_ADMINS = 'Foo,Bar';
 process.env.APP_SECRET = 'foobar';
 
 process.env.SLACK_WEBHOOK_URI = 'https://localhost/foo/bar';
+process.env.SLACK_VERIFICATION_TOKEN = 'ggghhhiiijjjkkk';
 
 process.env.USER_NO_PROFILE_COOKIE = sessions[0].cookie;
 process.env.USER_NO_PROFILE_OWNER = users[0].userName;

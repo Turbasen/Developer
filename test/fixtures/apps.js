@@ -16,6 +16,7 @@ module.exports = [{
   apps: [{
     _id: objectId('000000000000000000000001'),
     active: true,
+    approved: true,
     name: 'Foo App',
     desc: 'Ingen Beskrivelse',
     key: {
@@ -37,6 +38,7 @@ module.exports = [{
   apps: [{
     _id: objectId('100000000000000000000001'),
     active: true,
+    approved: true,
     name: 'Bar App',
     desc: 'Ingen Beskrivelse',
     key: {
@@ -67,6 +69,7 @@ module.exports = [{
   apps: [{
     _id: objectId('200000000000000000000001'),
     active: false,
+    approved: false,
     name: 'Bar App 1',
     url: 'https://bar.com/1',
     desc: 'The Bar Application 1',
@@ -81,6 +84,7 @@ module.exports = [{
   }, {
     _id: objectId('200000000000000000000002'),
     active: true,
+    approved: true,
     name: 'Bar App 2',
     url: 'https://bar.com/2',
     desc: 'The Bar Application 2',
