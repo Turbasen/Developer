@@ -62,7 +62,7 @@
     "clipboard": "^1.5.10",
     "connect-redis": "^3.0.2",
     "express": "^4.13.4",
-    "express-session": "^1.13.0",
+    "express-session": "^1.14.2",
     "github": "^2.1.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
