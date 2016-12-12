@@ -59,7 +59,7 @@
     "@starefossen/node-http-error": "^1.0.1",
     "async-each-map": "^1.0.1",
     "body-parser": "^1.15.0",
-    "clipboard": "^1.5.10",
+    "clipboard": "^1.5.16",
     "connect-redis": "^3.0.2",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
