@@ -75,7 +75,7 @@
     "mongoose": "^4.4.13",
     "nunjucks": "^2.4.2",
     "oauth": "^0.9.14",
-    "raven": "^0.11.0",
+    "raven": "^1.1.0",
     "semantic-ui-less": "^2.1.8",
     "sendgrid": "^2.0.0",
     "slackr": "^1.0.0",
