@@ -2,6 +2,8 @@
 
 const Schema = require('../../lib/db').Schema;
 const db = require('../../lib/db');
+const dbDev = process.env.DEV_DB ? db.connection.useDb(process.env.DEV_DB) : undefined;
+
 const keygen = require('../../lib/keygen');
 const appsort = require('../../lib/appsort');
 
@@ -234,6 +236,26 @@ userSchema.pre('save', function preSaveBackportKeys(next) {
 userSchema.methods.github = function appGithubClient() {
   return github.client(this.owner);
 };
+
+if (dbDev) {
+  userSchema.post('save', function saveToDev(doc) {
+    const duplicate = ApiUserDev.findOneAndUpdate(
+      doc._id,
+      // NOTE: Unset __v to prevent error: Cannot update \'__v\' and \'__v\' at the same time
+      Object.assign(doc, { __v: undefined }),
+      { upsert: true, setDefaultsOnInsert: false }
+    );
+
+    // Not really anything to do if success, as the response is already sent
+    // Send to console and throw error
+    duplicate.catch(err => {
+      console.error(err);
+      throw new Error(err);
+    });
+  });
+
+  const ApiUserDev = dbDev.model('ApiUser', userSchema);
+}
 
 module.exports = {
   ApiUser: db.model('ApiUser', userSchema),
