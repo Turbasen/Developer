@@ -192,8 +192,8 @@ route.post('/:id', (req, res, next) => {
 
     req.session.message = {
       class: 'positive',
-      title: 'App ppdatert',
-      message: `Applikasjon "${req.body.name}" ble oppdatert suksessfullt.`,
+      title: 'App oppdatert',
+      message: `Applikasjonen «${req.body.name}» ble oppdatert.`,
       app: req.app._id,
     };
 
@@ -214,7 +214,7 @@ route.post('/:id/disable', (req, res, next) => {
     req.session.message = {
       class: 'positive',
       title: 'App deaktivert',
-      message: `Applikasjon "${req.app.name}" ble deaktivert!`,
+      message: `Applikasjonen «${req.app.name}» ble deaktivert!`,
       app: req.app._id,
     };
 
