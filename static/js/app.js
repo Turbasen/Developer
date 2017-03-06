@@ -10,9 +10,10 @@ $('.button.copy').on('click', function(e) {
   e.preventDefault();
 });
 
-$('.button.keygen').on('click', function(e) {
-  $.post('/app/keygen', $.proxy(function(data) {
-    $(this).prevAll('input').first().val(data.key);
-  }, this));
-  e.preventDefault();
+$('input[name^="generate_key"]').on('change', function(e) {
+  if (e.target.checked) {
+    $(e.target).parent().nextAll('.message').addClass('visible');
+  } else {
+    $(e.target).parent().nextAll('.message').removeClass('visible');
+  }
 });

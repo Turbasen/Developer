@@ -38,10 +38,6 @@ route.use('/', (req, res, next) => {
   return next();
 });
 
-route.post('/keygen', (req, res, next) => {
-  return res.json({ key: keygen() });
-});
-
 route.use('/', (req, res, next) => {
   if (req.api.apps.length === 0 && /^\/app\/?$/.test(req.originalUrl)) {
     return res.redirect('/app/new');
@@ -157,8 +153,14 @@ route.post('/:id', (req, res, next) => {
   req.app.set('name', req.body.name);
   req.app.set('url', req.body.url || undefined);
   req.app.set('desc', req.body.desc);
-  req.app.set('key.dev', req.body.key_dev);
-  req.app.set('key.prod', req.body.key_prod);
+
+  if (req.body.generate_key_dev) {
+    req.app.set('key.dev', keygen());
+  }
+
+  if (req.body.generate_key_prod) {
+    req.app.set('key.prod', keygen());
+  }
 
   // Prod rate-limit change request
   if (parseInt(req.body.limit_prod, 10) !== req.app.limit.prod) {
