@@ -1,7 +1,6 @@
 'use strict';
 
-module.exports = function(grunt) {
-
+module.exports = (grunt) => {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -34,7 +33,7 @@ module.exports = function(grunt) {
         },
         files: {
           'static/css/app.css': 'static/less/app.less',
-        }
+        },
       },
     },
 
