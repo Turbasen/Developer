@@ -4,6 +4,9 @@ services:
   node:
     image: node:argon
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
     working_dir: /usr/src/app
     ports:
       - "8080"
@@ -31,7 +34,13 @@ services:
   redis:
     image: redis:3
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
 
   mongo:
     image: mongo:3.0
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
