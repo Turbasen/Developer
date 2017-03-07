@@ -29,7 +29,6 @@ services:
       - VIRTUAL_PORT=8080
       - APP_SECRET=not-a-secret
       - APP_ADMINS=Starefossen,kvikshaug
-      - DEV_DB=ntbdev
 
   redis:
     image: redis:3
