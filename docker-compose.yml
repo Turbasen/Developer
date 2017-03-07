@@ -28,7 +28,7 @@ services:
       - VIRTUAL_HOST=developer.nasjonalturbase.local
       - VIRTUAL_PORT=8080
       - APP_SECRET=not-a-secret
-      - APP_ADMINS=Starefossen,kvikshaug
+      - APP_ADMINS=Starefossen,kvikshaug,geekus
 
   redis:
     image: redis:3
