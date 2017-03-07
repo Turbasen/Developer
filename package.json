@@ -18,7 +18,7 @@
     "grunt": "grunt",
     "grunt:watch": "grunt watch",
     "lint": "eslint test/ lib/ apps/ index.js",
-    "lint:watch": "esw --color --watch *.js lib/ models/ test/",
+    "lint:watch": "esw --color --watch *.js test/ lib/ apps/ index.js",
     "nsp": "nsp check",
     "semantic-release": "semantic-release",
     "start": "supervisor -w index.js,apps,lib -e js index.js",
