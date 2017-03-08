@@ -6,6 +6,7 @@ const route = new Router();
 
 const ApiUser = require('./model').ApiUser;
 const filters = require('./filters');
+const keygen = require('../../lib/keygen');
 
 const APPS_FREE = process.env.APPS_FREE || 1;
 
@@ -153,6 +154,14 @@ route.post('/:id', (req, res, next) => {
   req.app.set('url', req.body.url || undefined);
   req.app.set('desc', req.body.desc);
 
+  if (req.body.generate_key_dev) {
+    req.app.set('key.dev', keygen());
+  }
+
+  if (req.body.generate_key_prod) {
+    req.app.set('key.prod', keygen());
+  }
+
   // Prod rate-limit change request
   if (parseInt(req.body.limit_prod, 10) !== req.app.limit.prod) {
     req.app.limit.prodRequest = parseInt(req.body.limit_prod, 10);
@@ -183,8 +192,8 @@ route.post('/:id', (req, res, next) => {
 
     req.session.message = {
       class: 'positive',
-      title: 'App ppdatert',
-      message: `Applikasjon "${req.body.name}" ble oppdatert suksessfullt.`,
+      title: 'App oppdatert',
+      message: `Applikasjonen «${req.body.name}» ble oppdatert.`,
       app: req.app._id,
     };
 
@@ -205,7 +214,7 @@ route.post('/:id/disable', (req, res, next) => {
     req.session.message = {
       class: 'positive',
       title: 'App deaktivert',
-      message: `Applikasjon "${req.app.name}" ble deaktivert!`,
+      message: `Applikasjonen «${req.app.name}» ble deaktivert!`,
       app: req.app._id,
     };
 

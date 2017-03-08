@@ -2,6 +2,7 @@
 
 const Schema = require('../../lib/db').Schema;
 const db = require('../../lib/db');
+
 const keygen = require('../../lib/keygen');
 const appsort = require('../../lib/appsort');
 

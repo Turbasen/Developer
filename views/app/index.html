@@ -52,7 +52,7 @@
             </div>
             <div class="fields">
               <div class="twelve wide field">
-                <label>Prod Nøkkel</label>
+                <label>Prod-nøkkel</label>
                 <div class="ui action input">
                   <input
                     type="text"
@@ -76,8 +76,20 @@
               </div>
             </div>
             <div class="fields">
+              <div class="sixteen wide field">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="generate_key_prod">
+                  <label>Generer ny API-nøkkel</label>
+                </div>
+                <div class="ui warning message generate_key_prod">
+                  <i class="icon warning"></i>
+                  Ny API-nøkkel vil genereres ved lagring, og vil erstatte den nåværende umiddelbart.
+                </div>
+              </div>
+            </div>
+            <div class="fields">
               <div class="twelve wide field">
-                <label>Dev Nøkkel</label>
+                <label>Dev-nøkkel</label>
                 <div class="ui action input">
                   <input
                     type="text"
@@ -98,6 +110,18 @@
                   name="limit_dev"
                   placeholder="{{ app.limit.dev }}"
                   value="{{ app.limit.devRequest | d(app.limit.dev) }}">
+              </div>
+            </div>
+            <div class="fields">
+              <div class="sixteen wide field">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="generate_key_dev">
+                  <label>Generer ny API-nøkkel</label>
+                </div>
+                <div class="ui warning message generate_key_dev">
+                  <i class="icon warning"></i>
+                  Ny API-nøkkel vil genereres ved lagring, og vil erstatte den nåværende umiddelbart.
+                </div>
               </div>
             </div>
             <button class="ui blue submit button" type="submit">

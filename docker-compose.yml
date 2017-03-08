@@ -4,6 +4,9 @@ services:
   node:
     image: node:argon
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
     working_dir: /usr/src/app
     ports:
       - "8080"
@@ -22,15 +25,21 @@ services:
       - NPM_CONFIG_LOGLEVEL=silent
       - NPM_CONFIG_PROGRESS=false
       - NPM_CONFIG_SPIN=false
-      - VIRTUAL_HOST=developer.turbasen.privat
+      - VIRTUAL_HOST=developer.nasjonalturbase.local
       - VIRTUAL_PORT=8080
       - APP_SECRET=not-a-secret
-      - APP_ADMINS=Starefossen,kvikshaug
+      - APP_ADMINS=Starefossen,kvikshaug,geekus
 
   redis:
     image: redis:3
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
 
   mongo:
     image: mongo:3.0
     network_mode: 'bridge'
+    logging:
+      options:
+        max-size: "500k"
