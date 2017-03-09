@@ -1,0 +1,97 @@
+{% extends "admin/layout.html" %}
+
+{% block title %}Users - {{ super() }}{% endblock %}
+
+<div class="twelve wide column">
+  {% include "components/message.html" %}
+
+  {% block content %}
+  {% for app in user.apps %}
+    <div class="ui" id="{{ app.slugg }}" style="margin-bottom: 10px;">
+      <div class="ui attached message">
+        <div class="header">{{ app.name }}</div>
+      </div>
+      {% if app.isActive or app.isPending %}
+      <form class="ui form attached fluid segment">
+        <div class="two fields">
+          <div class="field">
+            <label>App Navn</label>
+            <input type="text" name="name" value="{{ app.name }}" readonly>
+          </div>
+          <div class="field">
+            <label>URL</label>
+            <input type="text" name="url" value="{{ app.url }}" readonly>
+          </div>
+        </div>
+        <div class="field">
+          <label>Beskrivelse</label>
+          <textarea rows="2" name="desc" readonly>{{ app.desc }}</textarea>
+        </div>
+        <div class="fields">
+          <div class="twelve wide field">
+            <label>Prod-nøkkel</label>
+            <div class="ui input">
+              <input
+                type="text"
+                name="key_prod"
+                value="{{ app.key.prod }}"
+                readonly>
+            </div>
+          </div>
+          <div class="four wide field">
+            <label>Rate Limit</label>
+            <input
+              type="text"
+              name="limit_prod"
+              placeholder="{{ app.limit.prod }}"
+              value="{{ app.limit.prodRequest | d(app.limit.prod) }}"
+              readonly>
+          </div>
+        </div>
+        <div class="fields">
+          <div class="twelve wide field">
+            <label>Dev-nøkkel</label>
+            <div class="ui input">
+              <input
+                type="text"
+                name="key_dev"
+                value="{{ app.key.dev }}"
+                readonly>
+            </div>
+          </div>
+          <div class="four wide field">
+            <label>Rate Limit</label>
+            <input
+              type="text"
+              name="limit_dev"
+              placeholder="{{ app.limit.dev }}"
+              value="{{ app.limit.devRequest | d(app.limit.dev) }}"
+              readonly>
+          </div>
+        </div>
+      </form>
+      {% endif %}
+      {% if app.isRejected %}
+        <div class="ui bottom attached error message">
+          <i class="icon warning"></i>
+          Denne applikasjonen er avvist. {{ app.rejection }}
+        </div>
+      {% elif app.isPending %}
+        <div class="ui bottom attached info message">
+          <i class="icon wait"></i>
+          Denne applikasjonen venter på godkjenning.
+        </div>
+      {% elif app.limit.devRequest or app.limit.prodRequest %}
+        <div class="ui bottom attached info message">
+          <i class="icon wait"></i>
+          Endring av API rate-limit venter på godkjenning.
+        </div>
+      {% elif not app.isActive %}
+        <div class="ui bottom attached warning message">
+          <i class="icon warning"></i>
+          Denne applikasjonen er deaktivert.
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock %}

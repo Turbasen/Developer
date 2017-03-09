@@ -33,6 +33,13 @@ route.get('/users', (req, res, next) => {
   });
 });
 
+route.get('/users/:id', (req, res, next) => {
+  ApiUser.findOne({ _id: req.params.id }).exec((err, user) => {
+    if (err) { return next(err); }
+    return res.render('admin/user.html', { req, user: user });
+  });
+});
+
 route.get('/limits', (req, res, next) => {
   const error = req.session.message;
   delete req.session.message;

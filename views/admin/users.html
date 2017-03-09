@@ -15,7 +15,7 @@
         <img src="{{ app.owner[0].avatarUrl|d("/static/images/image.png") }}" alt="">
       </div>
       <div class="content">
-        <a class="header">{{ app.provider }}</a>
+        <a href="/admin/users/{{ app._id }}" class="header">{{ app.provider }}</a>
         <div class="meta">
           <span class="date">{{ app.updated|dateformat("YYYY-MM-DD HH:MM") }}</span>
         </div>
