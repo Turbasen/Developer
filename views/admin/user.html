@@ -12,20 +12,23 @@
         <div class="header">{{ app.name }}</div>
       </div>
       {% if app.isActive or app.isPending %}
-      <form class="ui form attached fluid segment">
+      <form
+        class="ui form attached fluid segment"
+        method="post"
+        action="/admin/users/{{ user._id}}/apps/{{ app._id }}">
         <div class="two fields">
           <div class="field">
             <label>App Navn</label>
-            <input type="text" name="name" value="{{ app.name }}" readonly>
+            <input type="text" name="name" value="{{ app.name }}">
           </div>
           <div class="field">
             <label>URL</label>
-            <input type="text" name="url" value="{{ app.url }}" readonly>
+            <input type="text" name="url" value="{{ app.url }}">
           </div>
         </div>
         <div class="field">
           <label>Beskrivelse</label>
-          <textarea rows="2" name="desc" readonly>{{ app.desc }}</textarea>
+          <textarea rows="2" name="desc">{{ app.desc }}</textarea>
         </div>
         <div class="fields">
           <div class="twelve wide field">
@@ -34,8 +37,7 @@
               <input
                 type="text"
                 name="key_prod"
-                value="{{ app.key.prod }}"
-                readonly>
+                value="{{ app.key.prod }}">
             </div>
           </div>
           <div class="four wide field">
@@ -44,8 +46,19 @@
               type="text"
               name="limit_prod"
               placeholder="{{ app.limit.prod }}"
-              value="{{ app.limit.prodRequest | d(app.limit.prod) }}"
-              readonly>
+              value="{{ app.limit.prodRequest | d(app.limit.prod) }}">
+          </div>
+        </div>
+        <div class="fields">
+          <div class="sixteen wide field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="generate_key_prod">
+              <label>Generer ny API-nøkkel</label>
+            </div>
+            <div class="ui warning message generate_key_prod">
+              <i class="icon warning"></i>
+              Ny API-nøkkel vil genereres ved lagring, og vil erstatte den nåværende umiddelbart.
+            </div>
           </div>
         </div>
         <div class="fields">
@@ -55,8 +68,7 @@
               <input
                 type="text"
                 name="key_dev"
-                value="{{ app.key.dev }}"
-                readonly>
+                value="{{ app.key.dev }}">
             </div>
           </div>
           <div class="four wide field">
@@ -65,10 +77,24 @@
               type="text"
               name="limit_dev"
               placeholder="{{ app.limit.dev }}"
-              value="{{ app.limit.devRequest | d(app.limit.dev) }}"
-              readonly>
+              value="{{ app.limit.devRequest | d(app.limit.dev) }}">
           </div>
         </div>
+        <div class="fields">
+          <div class="sixteen wide field">
+            <div class="ui checkbox">
+              <input type="checkbox" name="generate_key_dev">
+              <label>Generer ny API-nøkkel</label>
+            </div>
+            <div class="ui warning message generate_key_dev">
+              <i class="icon warning"></i>
+              Ny API-nøkkel vil genereres ved lagring, og vil erstatte den nåværende umiddelbart.
+            </div>
+          </div>
+        </div>
+        <button class="ui blue submit button" type="submit">
+          Lagre
+        </button>
       </form>
       {% endif %}
       {% if app.isRejected %}

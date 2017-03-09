@@ -9,6 +9,7 @@ const ApiUser = require('../app/model').ApiUser;
 
 const filters = require('./filters');
 const sendgrid = require('../../lib/sendgrid');
+const keygen = require('../../lib/keygen');
 
 if (module.parent.exports.nunjucks) {
   Object.keys(filters).forEach(filter => {
@@ -36,7 +37,7 @@ route.get('/users', (req, res, next) => {
 route.get('/users/:id', (req, res, next) => {
   ApiUser.findOne({ _id: req.params.id }).exec((err, user) => {
     if (err) { return next(err); }
-    return res.render('admin/user.html', { req, user: user });
+    return res.render('admin/user.html', { req, user });
   });
 });
 
@@ -58,6 +59,62 @@ route.get('/limits', (req, res, next) => {
   ApiUser.find(query).exec((err, users) => {
     if (err) { return next(err); }
     return res.render('admin/limits.html', { req, error, users });
+  });
+});
+
+route.post('/users/:userId/apps/:appId', (req, res, next) => {
+  const promise = ApiUser.findOne({ 'apps._id': req.params.appId });
+
+  promise.then(user => {
+    req.app = user.apps.id(req.params.appId);
+
+    req.app.set('name', req.body.name);
+    req.app.set('url', req.body.url || undefined);
+    req.app.set('desc', req.body.desc);
+
+    if (req.body.generate_key_dev) {
+      req.app.set('key.dev', keygen());
+    }
+
+    if (req.body.generate_key_prod) {
+      req.app.set('key.prod', keygen());
+    }
+
+    req.app.limit.prod = parseInt(req.body.limit_prod, 10);
+    req.app.limit.prodRequest = undefined;
+
+    req.app.limit.dev = parseInt(req.body.limit_dev, 10);
+    req.app.limit.devRequest = undefined;
+
+    const error = user.validateSync();
+
+    if (error) {
+      req.session.message = error[0];
+
+      res.set('x-app-status', 'failure');
+      res.set('x-app-message', 'validation_error');
+      res.redirect(303, `/admin/users/${req.params.userId}`);
+
+      return;
+    }
+
+    user.save(saveErr => {
+      if (saveErr) { next(saveErr); return; }
+
+      req.session.message = {
+        class: 'positive',
+        title: 'App oppdatert',
+        message: `Applikasjonen «${req.body.name}» ble oppdatert.`,
+        app: req.app._id,
+      };
+
+      res.set('x-app-status', 'success');
+      res.redirect(303, `/admin/users/${req.params.userId}`);
+
+      return;
+    });
+
+    return;
   });
 });
 
